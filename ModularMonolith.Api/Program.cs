@@ -1,4 +1,9 @@
+using System;
+using System.Linq;
 using Greetings.ApplicationServices;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using WeatherReporting.ApplicationServices;
 
 var builder = WebApplication.CreateBuilder(args);
