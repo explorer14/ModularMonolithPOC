@@ -10,4 +10,8 @@ public class GreetingsController(IProvideGreetings greetingsProvider) : Controll
     [HttpGet("todays")]
     public IActionResult GetTodaysGreeting() => 
         Ok(greetingsProvider.GetTodaysGreeting());
+    
+    [HttpGet("todays/{city}")]
+    public IActionResult GetTodaysWeatherBasedGreeting(string city) => 
+        Ok(greetingsProvider.GetTodaysWeatherBasedGreetingFor(city));
 }

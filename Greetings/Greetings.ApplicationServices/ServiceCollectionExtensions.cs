@@ -2,6 +2,7 @@
 using Greetings.PublishedInterfaces;
 using Greetings.Storage.Adapter;
 using Microsoft.Extensions.DependencyInjection;
+using WeatherReporting.PublishedInterfaces;
 
 namespace Greetings.ApplicationServices;
 
@@ -11,7 +12,8 @@ public static class ServiceCollectionExtensions
     {
         services.AddSingleton<IRetrieveGreetings, InmemoryGreetingsRetriever>();
         services.AddSingleton<IProvideGreetings>(serviceProvider => 
-            new GreetingsProvider(serviceProvider.GetService<IRetrieveGreetings>()));
+            new GreetingsProvider(serviceProvider.GetService<IRetrieveGreetings>(),
+                serviceProvider.GetService<IProvideOnDemandWeatherReport>()));
         
         return services;
     }
