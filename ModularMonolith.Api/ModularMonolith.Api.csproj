@@ -13,8 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Greetings\Greetings.PublishedInterfaces\Greetings.PublishedInterfaces.csproj" />
-    <ProjectReference Include="..\WeatherReporting\WeatherReporting.PublishedInterfaces\WeatherReporting.PublishedInterfaces.csproj" />
+    <ProjectReference Include="..\Greetings\Greetings.ModuleConnector\Greetings.ModuleConnector.csproj" />
   </ItemGroup>
 
 </Project>

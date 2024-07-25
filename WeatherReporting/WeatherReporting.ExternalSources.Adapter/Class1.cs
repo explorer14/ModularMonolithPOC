@@ -1,5 +1,5 @@
 ﻿namespace WeatherReporting.ExternalSources.Adapter;
 
-public class Class1
+public interface IProvideGreetings
 {
 }

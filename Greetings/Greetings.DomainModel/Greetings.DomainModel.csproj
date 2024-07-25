@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Greetings.PublishedInterfaces\Greetings.PublishedInterfaces.csproj" />
+    </ItemGroup>
+
 </Project>
