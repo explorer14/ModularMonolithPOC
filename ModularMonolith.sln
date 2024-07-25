@@ -11,23 +11,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WeatherReporting", "Weather
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Greetings.DomainModel", "Greetings\Greetings.DomainModel\Greetings.DomainModel.csproj", "{89062357-E5B6-4029-8145-67221CC0FCD9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherReporting.DomainModel", "WeatherReporting\WeatherReporting.DomainModel\WeatherReporting.DomainModel.csproj", "{67A0A204-EAE3-470B-86CD-281BACDF1C8A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Greetings.PublishedInterfaces", "Greetings\Greetings.PublishedInterfaces\Greetings.PublishedInterfaces.csproj", "{A6C812ED-84DD-43FA-9B5F-0333898158DC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherReporting.PublishedInterfaces", "WeatherReporting\WeatherReporting.PublishedInterfaces\WeatherReporting.PublishedInterfaces.csproj", "{F87D874B-6A18-4157-A714-58FF469FD138}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Greetings.Storage.Adapter", "Greetings\Greetings.Storage.Adapter\Greetings.Storage.Adapter.csproj", "{5AD3BA99-BC28-459D-A1B3-DF363A3A8681}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherReporting.ExternalSources.Adapter", "WeatherReporting\WeatherReporting.ExternalSources.Adapter\WeatherReporting.ExternalSources.Adapter.csproj", "{46CB6732-ED95-47E8-9592-57EFCF73607A}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{5F140205-03DF-44E0-9E4E-960C8BF7015E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D809FD4C-49E0-4B68-AAE9-101EFE3009AE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Greetings.ApplicationServices", "Greetings\Greetings.ApplicationServices\Greetings.ApplicationServices.csproj", "{DA878D95-EED0-425C-9589-2F50C9DA8333}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherReporting.ApplicationServices", "WeatherReporting\WeatherReporting.ApplicationServices\WeatherReporting.ApplicationServices.csproj", "{93B3C2C2-432E-4D71-9C8D-D4D8F16F1A88}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Greetings.WeatherReporting.Adapter", "Greetings\Greetings.WeatherReporting.Adapter\Greetings.WeatherReporting.Adapter.csproj", "{FC7E5086-1EB3-44AA-B72E-0AC3E1EB627E}"
 EndProject
@@ -48,10 +42,6 @@ Global
 		{89062357-E5B6-4029-8145-67221CC0FCD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{89062357-E5B6-4029-8145-67221CC0FCD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{89062357-E5B6-4029-8145-67221CC0FCD9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{67A0A204-EAE3-470B-86CD-281BACDF1C8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{67A0A204-EAE3-470B-86CD-281BACDF1C8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{67A0A204-EAE3-470B-86CD-281BACDF1C8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{67A0A204-EAE3-470B-86CD-281BACDF1C8A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A6C812ED-84DD-43FA-9B5F-0333898158DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A6C812ED-84DD-43FA-9B5F-0333898158DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6C812ED-84DD-43FA-9B5F-0333898158DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -64,18 +54,10 @@ Global
 		{5AD3BA99-BC28-459D-A1B3-DF363A3A8681}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5AD3BA99-BC28-459D-A1B3-DF363A3A8681}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5AD3BA99-BC28-459D-A1B3-DF363A3A8681}.Release|Any CPU.Build.0 = Release|Any CPU
-		{46CB6732-ED95-47E8-9592-57EFCF73607A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{46CB6732-ED95-47E8-9592-57EFCF73607A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{46CB6732-ED95-47E8-9592-57EFCF73607A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{46CB6732-ED95-47E8-9592-57EFCF73607A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DA878D95-EED0-425C-9589-2F50C9DA8333}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DA878D95-EED0-425C-9589-2F50C9DA8333}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA878D95-EED0-425C-9589-2F50C9DA8333}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA878D95-EED0-425C-9589-2F50C9DA8333}.Release|Any CPU.Build.0 = Release|Any CPU
-		{93B3C2C2-432E-4D71-9C8D-D4D8F16F1A88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{93B3C2C2-432E-4D71-9C8D-D4D8F16F1A88}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{93B3C2C2-432E-4D71-9C8D-D4D8F16F1A88}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{93B3C2C2-432E-4D71-9C8D-D4D8F16F1A88}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FC7E5086-1EB3-44AA-B72E-0AC3E1EB627E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FC7E5086-1EB3-44AA-B72E-0AC3E1EB627E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC7E5086-1EB3-44AA-B72E-0AC3E1EB627E}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -83,15 +65,12 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{89062357-E5B6-4029-8145-67221CC0FCD9} = {82FEC17F-555C-4F2B-8406-A1F59F303DF9}
-		{67A0A204-EAE3-470B-86CD-281BACDF1C8A} = {910E4113-361E-4AB4-99E8-3E844E977596}
 		{A6C812ED-84DD-43FA-9B5F-0333898158DC} = {82FEC17F-555C-4F2B-8406-A1F59F303DF9}
 		{F87D874B-6A18-4157-A714-58FF469FD138} = {910E4113-361E-4AB4-99E8-3E844E977596}
 		{5AD3BA99-BC28-459D-A1B3-DF363A3A8681} = {82FEC17F-555C-4F2B-8406-A1F59F303DF9}
-		{46CB6732-ED95-47E8-9592-57EFCF73607A} = {910E4113-361E-4AB4-99E8-3E844E977596}
 		{5F140205-03DF-44E0-9E4E-960C8BF7015E} = {82FEC17F-555C-4F2B-8406-A1F59F303DF9}
 		{D809FD4C-49E0-4B68-AAE9-101EFE3009AE} = {910E4113-361E-4AB4-99E8-3E844E977596}
 		{DA878D95-EED0-425C-9589-2F50C9DA8333} = {82FEC17F-555C-4F2B-8406-A1F59F303DF9}
-		{93B3C2C2-432E-4D71-9C8D-D4D8F16F1A88} = {910E4113-361E-4AB4-99E8-3E844E977596}
 		{FC7E5086-1EB3-44AA-B72E-0AC3E1EB627E} = {82FEC17F-555C-4F2B-8406-A1F59F303DF9}
 	EndGlobalSection
 EndGlobal
