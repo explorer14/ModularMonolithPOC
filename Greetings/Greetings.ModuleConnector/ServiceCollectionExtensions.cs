@@ -1,4 +1,4 @@
-﻿using Greetings.DomainModel;
+﻿using Greetings.ApplicationServices;
 using Greetings.DomainModel.Ports;
 using Greetings.PublishedInterfaces;
 using Greetings.Storage.Adapter;

@@ -27,6 +27,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D809FD4C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Greetings.ModuleConnector", "Greetings\Greetings.ModuleConnector\Greetings.ModuleConnector.csproj", "{EBDA22FD-2A63-4280-BD3E-959202C358C2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Greetings.ApplicationServices", "Greetings\Greetings.ApplicationServices\Greetings.ApplicationServices.csproj", "{DA878D95-EED0-425C-9589-2F50C9DA8333}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,6 +70,10 @@ Global
 		{EBDA22FD-2A63-4280-BD3E-959202C358C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EBDA22FD-2A63-4280-BD3E-959202C358C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EBDA22FD-2A63-4280-BD3E-959202C358C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA878D95-EED0-425C-9589-2F50C9DA8333}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA878D95-EED0-425C-9589-2F50C9DA8333}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA878D95-EED0-425C-9589-2F50C9DA8333}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA878D95-EED0-425C-9589-2F50C9DA8333}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{89062357-E5B6-4029-8145-67221CC0FCD9} = {82FEC17F-555C-4F2B-8406-A1F59F303DF9}
@@ -79,5 +85,6 @@ Global
 		{5F140205-03DF-44E0-9E4E-960C8BF7015E} = {82FEC17F-555C-4F2B-8406-A1F59F303DF9}
 		{D809FD4C-49E0-4B68-AAE9-101EFE3009AE} = {910E4113-361E-4AB4-99E8-3E844E977596}
 		{EBDA22FD-2A63-4280-BD3E-959202C358C2} = {82FEC17F-555C-4F2B-8406-A1F59F303DF9}
+		{DA878D95-EED0-425C-9589-2F50C9DA8333} = {82FEC17F-555C-4F2B-8406-A1F59F303DF9}
 	EndGlobalSection
 EndGlobal

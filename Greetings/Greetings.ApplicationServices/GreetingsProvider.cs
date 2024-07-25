@@ -1,7 +1,7 @@
 ﻿using Greetings.DomainModel.Ports;
 using Greetings.PublishedInterfaces;
 
-namespace Greetings.DomainModel;
+namespace Greetings.ApplicationServices;
 
 public class GreetingsProvider(IRetrieveGreetings greetingsRetriever) : IProvideGreetings
 {

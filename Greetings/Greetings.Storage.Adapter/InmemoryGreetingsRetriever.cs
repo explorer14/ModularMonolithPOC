@@ -10,7 +10,7 @@ internal class InmemoryGreetingsRetriever : IRetrieveGreetings
     {
         if (_greetings.TryPop(out var todaysGreeting))
             return new DomainModel.Objects.TodaysGreeting(todaysGreeting.Message);
-
+        
         return null;
     }
 }
