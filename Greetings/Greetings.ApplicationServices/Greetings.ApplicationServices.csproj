@@ -11,6 +11,7 @@
       <ProjectReference Include="..\Greetings.DomainModel\Greetings.DomainModel.csproj" />
       <ProjectReference Include="..\Greetings.PublishedInterfaces\Greetings.PublishedInterfaces.csproj" />
       <ProjectReference Include="..\Greetings.Storage.Adapter\Greetings.Storage.Adapter.csproj" />
+      <ProjectReference Include="..\Greetings.WeatherReporting.Adapter\Greetings.WeatherReporting.Adapter.csproj" />
     </ItemGroup>
 
     <ItemGroup>
