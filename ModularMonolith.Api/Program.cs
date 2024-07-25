@@ -1,4 +1,5 @@
-using Greetings.ModuleConnector;
+using Greetings.ApplicationServices;
+using WeatherReporting.ApplicationServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddGreetingsModule();
+builder.Services.AddWeatherReportingModule();
 
 var app = builder.Build();
 

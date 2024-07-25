@@ -7,9 +7,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Greetings.DomainModel\Greetings.DomainModel.csproj" />
-      <ProjectReference Include="..\Greetings.PublishedInterfaces\Greetings.PublishedInterfaces.csproj" />
-      <ProjectReference Include="..\Greetings.Storage.Adapter\Greetings.Storage.Adapter.csproj" />
+      <ProjectReference Include="..\WeatherReporting.DomainModel\WeatherReporting.DomainModel.csproj" />
+      <ProjectReference Include="..\WeatherReporting.ExternalSources.Adapter\WeatherReporting.ExternalSources.Adapter.csproj" />
+      <ProjectReference Include="..\WeatherReporting.PublishedInterfaces\WeatherReporting.PublishedInterfaces.csproj" />
     </ItemGroup>
 
     <ItemGroup>

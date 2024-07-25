@@ -3,7 +3,7 @@ using Greetings.PublishedInterfaces;
 
 namespace Greetings.ApplicationServices;
 
-public class GreetingsProvider(IRetrieveGreetings greetingsRetriever) : IProvideGreetings
+internal class GreetingsProvider(IRetrieveGreetings greetingsRetriever) : IProvideGreetings
 {
     public TodaysGreeting GetTodaysGreeting()
     {
