@@ -4,6 +4,9 @@ using Greetings.ApplicationServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SharedInfrastructure;
+using WeatherModeling.ApplicationServices;
+using WeatherReporting.ApplicationServices;
 using WeatherReporting.PublishedInterfaces;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,9 +16,19 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSingleton(QueueFactory.CreateFor<OnDemandWeatherReport>());
 
+if (builder.Configuration.GetValue<bool>("UseWeatherReportingApi", false) == false)
+{
+    builder.Services.AddGreetingsModule();
+    builder.Services.AddWeatherReportingModule();
+}
+else
+{
+    builder.Services.AddGreetingsModuleWithWeatherReportingApi();
+}
 
-builder.Services.AddGreetingsModuleWithWeatherReportingApi();
+builder.Services.AddWeatherModelingModule();
 
 var app = builder.Build();
 

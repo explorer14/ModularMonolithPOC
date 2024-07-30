@@ -15,6 +15,9 @@
   <ItemGroup>
     <ProjectReference Include="..\Greetings\Greetings.ApplicationServices\Greetings.ApplicationServices.csproj" />
     <ProjectReference Include="..\Greetings\Greetings.PublishedInterfaces\Greetings.PublishedInterfaces.csproj" />
+    <ProjectReference Include="..\SharedInfrastructure\SharedInfrastructure.csproj" />
+    <ProjectReference Include="..\WeatherModeling\WeatherModeling.ApplicationServices\WeatherModeling.ApplicationServices.csproj" />
+    <ProjectReference Include="..\WeatherReporting\WeatherReporting.ApplicationServices\WeatherReporting.ApplicationServices.csproj" />
   </ItemGroup>
 
 </Project>
