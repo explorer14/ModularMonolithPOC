@@ -37,6 +37,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedInfrastructure", "Sha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherReporting.Publishing.Adapter", "WeatherReporting\WeatherReporting.Publishing.Adapter\WeatherReporting.Publishing.Adapter.csproj", "{2E1AC675-240D-49AA-8049-57161B603A9B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherReporting.UnitTests", "WeatherReporting\tests\WeatherReporting.UnitTests\WeatherReporting.UnitTests.csproj", "{0AE0AEEF-F239-4F11-A5A7-A15EAAD3DC85}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -94,6 +96,10 @@ Global
 		{2E1AC675-240D-49AA-8049-57161B603A9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E1AC675-240D-49AA-8049-57161B603A9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E1AC675-240D-49AA-8049-57161B603A9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AE0AEEF-F239-4F11-A5A7-A15EAAD3DC85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AE0AEEF-F239-4F11-A5A7-A15EAAD3DC85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AE0AEEF-F239-4F11-A5A7-A15EAAD3DC85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AE0AEEF-F239-4F11-A5A7-A15EAAD3DC85}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{89062357-E5B6-4029-8145-67221CC0FCD9} = {82FEC17F-555C-4F2B-8406-A1F59F303DF9}
@@ -108,5 +114,6 @@ Global
 		{C18899A6-13C0-4A27-8760-970E88A5B416} = {2D28F931-0DA0-4B4E-A26E-168BFAEEE00E}
 		{727FD2D0-73F5-4825-A0AD-CADCC46E14D3} = {2D28F931-0DA0-4B4E-A26E-168BFAEEE00E}
 		{2E1AC675-240D-49AA-8049-57161B603A9B} = {910E4113-361E-4AB4-99E8-3E844E977596}
+		{0AE0AEEF-F239-4F11-A5A7-A15EAAD3DC85} = {D809FD4C-49E0-4B68-AAE9-101EFE3009AE}
 	EndGlobalSection
 EndGlobal
