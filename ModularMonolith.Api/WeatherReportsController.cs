@@ -7,7 +7,7 @@ namespace ModularMonolith.Api;
 [Route("api/[controller]")]
 [ApiController]
 public class WeatherReportsController(IProvideOnDemandWeatherReport onDemandWeatherReportProvider,
-    ConcurrentQueue<OnDemandWeatherReport> queue)
+    IPublishWeatherReports weatherReportPublisher)
     : ControllerBase
 {
     [HttpGet("{city}")]
@@ -24,7 +24,7 @@ public class WeatherReportsController(IProvideOnDemandWeatherReport onDemandWeat
     public IActionResult PublishNewWeatherReport(string city)
     {
         var weatherReport = onDemandWeatherReportProvider.GetTodaysWeatherFor(city);
-        queue.Enqueue(weatherReport);
+        weatherReportPublisher.Publish(weatherReport);
 
         return Accepted();
     }
