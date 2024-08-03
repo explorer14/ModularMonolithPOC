@@ -12,17 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton(QueueFactory.CreateFor<OnDemandWeatherReport>());
 
-if (builder.Configuration.GetValue<bool>("UseWeatherReportingApi", false) == false)
-{
-    builder.Services.AddGreetingsModule();
-    builder.Services.AddWeatherReportingModule();
-}
-else
-{
-    builder.Services.AddGreetingsModuleWithWeatherReportingApi();
-}
-
-builder.Services.AddWeatherModelingModule();
+AddApplicationModules();
 
 var app = builder.Build();
 
@@ -31,7 +21,29 @@ app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 app.UseRouting();
-app.MapGreetingEndpoints();
-app.MapWeatherReportingEndpoints();
+
+AddApplicationModuleEndpoints(app);
 
 app.Run();
+
+void AddApplicationModuleEndpoints(WebApplication webApplication)
+{
+    webApplication.MapGreetingEndpoints();
+    webApplication.MapWeatherReportingEndpoints();
+}
+
+void AddApplicationModules()
+{
+    if (builder.Configuration.GetValue<bool>("UseWeatherReportingApi", false) == false)
+    {
+        builder.Services.AddGreetingsModule();
+        builder.Services.AddWeatherReportingModule();
+    }
+    else
+    {
+        builder.Services.AddGreetingsModuleWithWeatherReportingApi();
+    }
+
+    builder.Services.AddWeatherModelingModule();
+    
+}
