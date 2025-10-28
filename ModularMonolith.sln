@@ -21,7 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{5F140205
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D809FD4C-49E0-4B68-AAE9-101EFE3009AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Greetings.ApplicationServices", "Greetings\Greetings.ApplicationServices\Greetings.ApplicationServices.csproj", "{DA878D95-EED0-425C-9589-2F50C9DA8333}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Greetings.Application", "Greetings\Greetings.Application\Greetings.Application.csproj", "{DA878D95-EED0-425C-9589-2F50C9DA8333}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Greetings.WeatherReporting.Adapter", "Greetings\Greetings.WeatherReporting.Adapter\Greetings.WeatherReporting.Adapter.csproj", "{FC7E5086-1EB3-44AA-B72E-0AC3E1EB627E}"
 EndProject
@@ -29,7 +29,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WeatherModeling", "WeatherM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherModeling.DomainModel", "WeatherModeling\WeatherModeling.DomainModel\WeatherModeling.DomainModel.csproj", "{E649A05C-29AE-4CC2-B9AC-2233C574105F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherModeling.ApplicationServices", "WeatherModeling\WeatherModeling.ApplicationServices\WeatherModeling.ApplicationServices.csproj", "{C18899A6-13C0-4A27-8760-970E88A5B416}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherModeling.Application", "WeatherModeling\WeatherModeling.Application\WeatherModeling.Application.csproj", "{C18899A6-13C0-4A27-8760-970E88A5B416}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherModeling.Messaging.Adapter", "WeatherModeling\WeatherModeling.Messaging.Adapter\WeatherModeling.Messaging.Adapter.csproj", "{727FD2D0-73F5-4825-A0AD-CADCC46E14D3}"
 EndProject
@@ -39,7 +39,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherReporting.Publishing
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherReporting.UnitTests", "WeatherReporting\tests\WeatherReporting.UnitTests\WeatherReporting.UnitTests.csproj", "{0AE0AEEF-F239-4F11-A5A7-A15EAAD3DC85}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherReporting.ApplicationServices", "WeatherReporting\WeatherReporting.ApplicationServices\WeatherReporting.ApplicationServices.csproj", "{4FCD1443-A5C5-480B-88BF-045413FD4FC0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherReporting.Application", "WeatherReporting\WeatherReporting.Application\WeatherReporting.Application.csproj", "{4FCD1443-A5C5-480B-88BF-045413FD4FC0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherReporting.DomainModel", "WeatherReporting\WeatherReporting.DomainModel\WeatherReporting.DomainModel.csproj", "{3174CF4A-B69E-4A5D-84F5-C3A02F5E2553}"
 EndProject

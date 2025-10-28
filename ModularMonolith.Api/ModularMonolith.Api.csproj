@@ -13,11 +13,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Greetings\Greetings.ApplicationServices\Greetings.ApplicationServices.csproj" />
+    <ProjectReference Include="..\Greetings\Greetings.Application\Greetings.Application.csproj" />
     <ProjectReference Include="..\Greetings\Greetings.PublishedInterfaces\Greetings.PublishedInterfaces.csproj" />
     <ProjectReference Include="..\SharedInfrastructure\SharedInfrastructure.csproj" />
-    <ProjectReference Include="..\WeatherModeling\WeatherModeling.ApplicationServices\WeatherModeling.ApplicationServices.csproj" />
-    <ProjectReference Include="..\WeatherReporting\WeatherReporting.ApplicationServices\WeatherReporting.ApplicationServices.csproj" />
+    <ProjectReference Include="..\WeatherModeling\WeatherModeling.Application\WeatherModeling.Application.csproj" />
+    <ProjectReference Include="..\WeatherReporting\WeatherReporting.Application\WeatherReporting.Application.csproj" />
   </ItemGroup>
 
 </Project>

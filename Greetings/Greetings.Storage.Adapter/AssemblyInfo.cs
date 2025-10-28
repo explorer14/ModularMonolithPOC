@@ -1,3 +1,3 @@
 ﻿using System.Runtime.CompilerServices;
 
-[assembly:InternalsVisibleTo("Greetings.ApplicationServices")]
+[assembly:InternalsVisibleTo("Greetings.Application")]

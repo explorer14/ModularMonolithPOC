@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WeatherReporting.PublishedInterfaces;
 
-namespace WeatherReporting.ApplicationServices;
+namespace WeatherReporting.Application;
 
 [Route("api/weather-reports")]
 [Route("api/[controller]")]

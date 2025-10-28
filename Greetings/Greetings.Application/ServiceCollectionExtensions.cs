@@ -5,7 +5,7 @@ using Greetings.WeatherReporting.Adapter;
 using Microsoft.Extensions.DependencyInjection;
 using WeatherReporting.PublishedInterfaces;
 
-namespace Greetings.ApplicationServices;
+namespace Greetings.Application;
 
 public static class ServiceCollectionExtensions
 {

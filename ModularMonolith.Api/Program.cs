@@ -1,7 +1,7 @@
-using Greetings.ApplicationServices;
+using Greetings.Application;
 using SharedInfrastructure;
-using WeatherModeling.ApplicationServices;
-using WeatherReporting.ApplicationServices;
+using WeatherModeling.Application;
+using WeatherReporting.Application;
 using WeatherReporting.PublishedInterfaces;
 
 var builder = WebApplication.CreateBuilder(args);

@@ -1,5 +1,5 @@
 using FluentAssertions;
-using WeatherReporting.ApplicationServices;
+using WeatherReporting.Application;
 using WeatherReporting.DomainModel;
 using WeatherReporting.PublishedInterfaces;
 using OnDemandWeatherReport = WeatherReporting.DomainModel.OnDemandWeatherReport;

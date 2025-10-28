@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using WeatherModeling.Messaging.Adapter;
 using WeatherReporting.PublishedInterfaces;
 
-namespace WeatherModeling.ApplicationServices;
+namespace WeatherModeling.Application;
 
 public static class ServiceCollectionExtensions
 {

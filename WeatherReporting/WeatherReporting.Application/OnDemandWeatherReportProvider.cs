@@ -2,7 +2,7 @@
 using WeatherReporting.PublishedInterfaces;
 using OnDemandWeatherReport = WeatherReporting.PublishedInterfaces.OnDemandWeatherReport;
 
-namespace WeatherReporting.ApplicationServices;
+namespace WeatherReporting.Application;
 
 internal class OnDemandWeatherReportProvider : IProvideOnDemandWeatherReport
 {

@@ -4,7 +4,7 @@ using WeatherReporting.ExternalSources.Adapter;
 using WeatherReporting.PublishedInterfaces;
 using WeatherReporting.Publishing.Adapter;
 
-namespace WeatherReporting.ApplicationServices;
+namespace WeatherReporting.Application;
 
 public static class ServiceCollectionExtensions
 {

@@ -2,7 +2,7 @@
 using Greetings.PublishedInterfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Greetings.ApplicationServices;
+namespace Greetings.Application;
 
 [Route("api/[controller]")]
 [ApiController]
