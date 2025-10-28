@@ -23,14 +23,8 @@ app.UseHttpsRedirection();
 app.UseRouting();
 app.MapControllers();
 
-AddApplicationModuleEndpoints(app);
-
 app.Run();
 
-void AddApplicationModuleEndpoints(WebApplication webApplication)
-{
-    webApplication.MapWeatherReportingEndpoints();
-}
 
 void AddApplicationModules()
 {
