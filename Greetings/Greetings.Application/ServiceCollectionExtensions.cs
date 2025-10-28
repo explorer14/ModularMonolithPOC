@@ -35,21 +35,25 @@ public static class ServiceCollectionExtensions
 
     public static IEndpointRouteBuilder MapGreetingsEndpoints(this IEndpointRouteBuilder endpoints)
     {
-        endpoints.MapGet("api/greetings/todays/{city}", (string city, IProvideGreetings greetingsProvider) =>
+        var tag = "greetings";
+        var routeBase = $"api/{tag}";
+        endpoints.MapGet($"{routeBase}/todays/{{city}}", (string city, IProvideGreetings greetingsProvider) =>
         {
             var result = greetingsProvider.GetTodaysWeatherBasedGreetingFor(city);
             return Results.Ok(result);
         })
         .Produces<TodaysWeatherBasedGreeting>(StatusCodes.Status200OK)
-        .Produces<TodaysWeatherBasedGreeting>(StatusCodes.Status500InternalServerError);
+        .Produces<TodaysWeatherBasedGreeting>(StatusCodes.Status500InternalServerError)
+        .WithTags(tag);
 
-        endpoints.MapGet("api/greetings/todays", (IProvideGreetings greetingsProvider) =>
+        endpoints.MapGet($"{routeBase}/todays", (IProvideGreetings greetingsProvider) =>
         {
             var result = greetingsProvider.GetTodaysGreeting();
             return Results.Ok(result);
         })
         .Produces<TodaysWeatherBasedGreeting>(StatusCodes.Status200OK)
-        .Produces<TodaysWeatherBasedGreeting>(StatusCodes.Status500InternalServerError);
+        .Produces<TodaysWeatherBasedGreeting>(StatusCodes.Status500InternalServerError)
+        .WithTags(tag);
 
         return endpoints;
     }

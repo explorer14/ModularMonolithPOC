@@ -23,18 +23,33 @@ public static class ServiceCollectionExtensions
 
     public static IEndpointRouteBuilder MapWeatherReportingEndpoints(this IEndpointRouteBuilder endpoints)
     {
-        endpoints.MapGet("api/weather-reports/{city}", (string city, IProvideOnDemandWeatherReport onDemandWeatherReportProvider) =>
+        var tag = "weather-reports";
+        var routeBase = $"api/{tag}";
+        endpoints.MapGet($"{routeBase}/{{city}}", (
+            string city,
+            IProvideOnDemandWeatherReport onDemandWeatherReportProvider
+            ) =>
         {
             var result = onDemandWeatherReportProvider.GetTodaysWeatherFor(city);
             return Results.Ok(result);
-        });
+        })
+        .Produces<PublishedInterfaces.OnDemandWeatherReport>(StatusCodes.Status200OK)
+        .Produces<PublishedInterfaces.OnDemandWeatherReport>(StatusCodes.Status500InternalServerError)
+        .WithTags(tag);
 
-        endpoints.MapPost("/publish/{city}", (string city, IProvideOnDemandWeatherReport onDemandWeatherReportProvider, IPublishWeatherReports weatherReportPublisher) =>
+        endpoints.MapPost($"{routeBase}/publish/{{city}}", (
+            string city,
+            IProvideOnDemandWeatherReport onDemandWeatherReportProvider,
+            IPublishWeatherReports weatherReportPublisher
+            ) =>
         {
             var weatherReport = onDemandWeatherReportProvider.GetTodaysWeatherFor(city);
             weatherReportPublisher.Publish(weatherReport);
             return Results.Accepted();
-        });
+        })
+        .Produces<PublishedInterfaces.OnDemandWeatherReport>(StatusCodes.Status200OK)
+        .Produces<PublishedInterfaces.OnDemandWeatherReport>(StatusCodes.Status500InternalServerError)
+        .WithTags(tag);
 
         return endpoints;
     }
