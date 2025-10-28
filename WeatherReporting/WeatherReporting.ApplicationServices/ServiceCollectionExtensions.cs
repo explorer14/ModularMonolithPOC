@@ -10,6 +10,9 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddWeatherReportingModule(this IServiceCollection services)
     {
+        services
+            .AddControllers().AddApplicationPart(typeof(ServiceCollectionExtensions).Assembly);
+        
         services.AddSingleton<IPublishWeatherReports, InmemoryQueuePublisher>()
             .AddSingleton<IRetrieveWeatherReport, RandomlyGeneratedWeatherReportRetriever>()
             .AddSingleton<IProvideOnDemandWeatherReport>(serviceProvider => 

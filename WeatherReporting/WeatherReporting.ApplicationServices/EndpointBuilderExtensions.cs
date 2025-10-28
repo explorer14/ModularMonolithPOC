@@ -12,11 +12,6 @@ public static class EndpointBuilderExtensions
     
     public static RouteHandlerBuilder MapWeatherReportingEndpoints(this IEndpointRouteBuilder routeBuilder)
     {
-        routeBuilder.MapGet($"{ROUTE_BASE}/{{city}}", 
-                (IProvideOnDemandWeatherReport OnDemandWeatherReportProvider, string city) => 
-            TypedResults.Ok(OnDemandWeatherReportProvider.GetTodaysWeatherFor(city)))
-            .WithTags(TAG);
-        
         return routeBuilder.MapPost($"{ROUTE_BASE}/publish/{{city}}", 
                 (IProvideOnDemandWeatherReport onDemandWeatherReportProvider,
                     IPublishWeatherReports weatherReportPublisher,
