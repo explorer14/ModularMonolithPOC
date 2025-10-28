@@ -2,6 +2,7 @@ using FluentAssertions;
 using WeatherReporting.ApplicationServices;
 using WeatherReporting.DomainModel;
 using WeatherReporting.PublishedInterfaces;
+using OnDemandWeatherReport = WeatherReporting.DomainModel.OnDemandWeatherReport;
 
 namespace WeatherReporting.UnitTests;
 
