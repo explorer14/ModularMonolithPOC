@@ -21,6 +21,7 @@ app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 app.UseRouting();
+app.MapControllers();
 
 AddApplicationModuleEndpoints(app);
 
@@ -44,6 +45,6 @@ void AddApplicationModules()
         builder.Services.AddGreetingsModuleWithWeatherReportingApi();
     }
 
-    builder.Services.AddWeatherModelingModule();
+    //builder.Services.AddWeatherModelingModule();
     
 }

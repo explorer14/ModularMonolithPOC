@@ -20,10 +20,11 @@ public static class ServiceCollectionExtensions
 
     private static IServiceCollection AddServices(IServiceCollection services)
     {
+        services.AddControllers().AddApplicationPart(typeof(ServiceCollectionExtensions).Assembly);
         services.AddSingleton<IRetrieveGreetings, InmemoryGreetingsRetriever>();
         services.AddSingleton<IProvideGreetings>(serviceProvider => 
-            new GreetingsProvider(serviceProvider.GetService<IRetrieveGreetings>(),
-                serviceProvider.GetService<IProvideOnDemandWeatherReport>()));
+            new GreetingsProvider(greetingsRetriever: serviceProvider.GetService<IRetrieveGreetings>()!,
+                onDemandWeatherReportProvider: serviceProvider.GetService<IProvideOnDemandWeatherReport>()));
         
         return services;
     }
