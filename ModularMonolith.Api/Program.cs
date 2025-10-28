@@ -38,6 +38,5 @@ void AddApplicationModules()
         builder.Services.AddGreetingsModuleWithWeatherReportingApi();
     }
 
-    //builder.Services.AddWeatherModelingModule();
-    
+    builder.Services.AddWeatherModelingModule();
 }
