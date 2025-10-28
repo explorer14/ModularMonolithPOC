@@ -9,6 +9,8 @@ namespace Greetings.ApplicationServices;
 
 public static class ServiceCollectionExtensions
 {
+    // TODO: can DI be made smarter here so it can auto-detect if it needs to load
+    // in-proc/lib dependency or out-of-proc/http dependency?
     public static IServiceCollection AddGreetingsModuleWithWeatherReportingApi(this IServiceCollection services)
     {
         services.AddSingleton<IProvideOnDemandWeatherReport, WeatherReportingApi>();
