@@ -5,6 +5,11 @@ namespace Greetings.Storage.Adapter;
 internal class InmemoryGreetingsRetriever : IRetrieveGreetings
 {
     private readonly Stack<TodaysGreeting> _greetings = new();
+
+    public InmemoryGreetingsRetriever()
+    {
+        _greetings.Push(new TodaysGreeting("Hello World!"));
+    }
     
     public DomainModel.Objects.TodaysGreeting? GetTodaysGreeting()
     {

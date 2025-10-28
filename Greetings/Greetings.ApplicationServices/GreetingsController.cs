@@ -14,4 +14,11 @@ public class GreetingsController(IProvideGreetings greetingsProvider) : Controll
     public Task<IActionResult> GetTodaysWeatherForCity(string city) =>
         Task.FromResult<IActionResult>(
             Ok(greetingsProvider.GetTodaysWeatherBasedGreetingFor(city)));
+    
+    [ProducesResponseType<TodaysWeatherBasedGreeting>((int)HttpStatusCode.OK)]
+    [ProducesResponseType<TodaysWeatherBasedGreeting>((int)HttpStatusCode.InternalServerError)]
+    [HttpGet("todays")]
+    public Task<IActionResult> GetTodaysWeatherForAllCities() =>
+        Task.FromResult<IActionResult>(
+            Ok(greetingsProvider.GetTodaysGreeting()));
 }

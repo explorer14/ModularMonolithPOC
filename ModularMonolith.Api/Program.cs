@@ -29,7 +29,6 @@ app.Run();
 
 void AddApplicationModuleEndpoints(WebApplication webApplication)
 {
-    webApplication.MapGreetingEndpoints();
     webApplication.MapWeatherReportingEndpoints();
 }
 
