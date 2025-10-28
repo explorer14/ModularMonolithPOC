@@ -21,7 +21,8 @@ app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 app.UseRouting();
-app.MapControllers();
+app.MapGreetingsEndpoints();
+app.MapWeatherReportingEndpoints();
 
 app.Run();
 
