@@ -33,6 +33,29 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
+    // The endpoint approach works better than the controller approach 
+    // because it offers more control over which endpoints are exposed.
+    // With controllers you need to call AddControllers() per module
+    // which is pointless because the first call to AddControllers() will expose
+    // all the endpoints across all modules which is hidden coupling.
+    // This can make unplugging modules risky because you'd think by removing the 
+    // module registration call that that would disable the module, but since 
+    // the AddControllers() also exists in other modules, the controller endpoints
+    // of all modules will still be exposed.
+    
+    // Solution: Make exposing endpoints (for HTTP consumption)
+    // separate and explicit from registering the modules (class libraries).
+    // This way a module can still be used in the system, it just won't expose 
+    // any endpoints.
+    // Also allows deferring endpoints if its not clear if they are needed yet.
+    
+    // Downside: two function calls as opposed to one. Unplugging libs whilst 
+    // leaving the endpoints in, throws exceptions.
+    
+    // Reason why we can't have one function do both: libs are registered on IServiceCollection
+    // whereas the endpoints are registered on IEndpointRouteBuilder which is only available
+    // once the app builder has built the application which freezes IServiceCollection.
+    // This means trying to add endpoints before registering libs will not work!
     public static IEndpointRouteBuilder MapGreetingsEndpoints(this IEndpointRouteBuilder endpoints)
     {
         var tag = "greetings";
