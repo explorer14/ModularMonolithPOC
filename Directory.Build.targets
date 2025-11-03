@@ -7,6 +7,8 @@
             <IsWeatherReportingInternal Condition="$(MSBuildProjectDirectory.Contains('WeatherReporting\')) AND !$(MSBuildProjectDirectory.Contains('PublishedInterfaces'))">true</IsWeatherReportingInternal>
             <IsWeatherModelingProject Condition="$(MSBuildProjectDirectory.Contains('WeatherModeling\'))">true</IsWeatherModelingProject>
             <IsWeatherModelingInternal Condition="$(MSBuildProjectDirectory.Contains('WeatherModeling\')) AND !$(MSBuildProjectDirectory.Contains('PublishedInterfaces'))">true</IsWeatherModelingInternal>
+
+            <IsPublishedInterfacesProject Condition="$(MSBuildProjectName.Contains('PublishedInterfaces'))">true</IsPublishedInterfacesProject>
         </PropertyGroup>
 
         <ItemGroup Condition="'$(IsGreetingsProject)' == 'true'">
@@ -43,7 +45,16 @@
                    $([System.String]::Copy('%(ProjectReference.Identity)').Contains('WeatherReporting.DomainModel'))"/>
         </ItemGroup>
 
+        <!-- CRITICAL: Prevent PublishedInterfaces projects from referencing each other -->
+        <ItemGroup Condition="'$(IsPublishedInterfacesProject)' == 'true'">
+            <CircularPublishedInterfacesReferences Include="@(ProjectReference)"
+                                                   Condition="$([System.String]::Copy('%(ProjectReference.Identity)').Contains('PublishedInterfaces')) AND
+                   !$([System.String]::Copy('%(ProjectReference.Identity)').Contains('$(MSBuildProjectName)'))" />
+        </ItemGroup>
+
         <Error Text="🚫 Architecture Violation: A module cannot reference internals of another module. Forbidden reference: %(ForbiddenReferences.Identity)"
                Condition="'@(ForbiddenReferences)' != ''"/>
+        <Error Text="🚫 Architecture Violation: PublishedInterfaces projects cannot reference other PublishedInterfaces projects (circular dependency). Forbidden reference: %(CircularPublishedInterfacesReferences.Identity)"
+               Condition="'@(CircularPublishedInterfacesReferences)' != ''" />
     </Target>
 </Project>
