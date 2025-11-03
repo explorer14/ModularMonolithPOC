@@ -18,7 +18,10 @@ public class WhenValidatingModuleBoundaries
             typeof(WeatherReporting.DomainModel.OnDemandWeatherReport).Assembly,
             typeof(WeatherReporting.PublishedInterfaces.IProvideOnDemandWeatherReport).Assembly,
             typeof(WeatherReporting.Publishing.Adapter.InmemoryQueuePublisher).Assembly,
-            typeof(WeatherReporting.ExternalSources.Adapter.RandomlyGeneratedWeatherReportRetriever).Assembly)
+            typeof(WeatherReporting.ExternalSources.Adapter.RandomlyGeneratedWeatherReportRetriever).Assembly,
+            typeof(WeatherModeling.Application.ServiceCollectionExtensions).Assembly,
+            typeof(WeatherModeling.DomainModel.WeatherReport).Assembly,
+            typeof(WeatherModeling.Messaging.Adapter.InMemoryMessageQueueListener).Assembly)
         .Build();
 
     [Fact]

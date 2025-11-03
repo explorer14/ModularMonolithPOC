@@ -30,6 +30,9 @@
       <ProjectReference Include="..\Greetings\Greetings.PublishedInterfaces\Greetings.PublishedInterfaces.csproj" />
       <ProjectReference Include="..\Greetings\Greetings.Storage.Adapter\Greetings.Storage.Adapter.csproj" />
       <ProjectReference Include="..\Greetings\Greetings.WeatherReportingApi.Adapter\Greetings.WeatherReportingApi.Adapter.csproj" />
+      <ProjectReference Include="..\WeatherModeling\WeatherModeling.Application\WeatherModeling.Application.csproj" />
+      <ProjectReference Include="..\WeatherModeling\WeatherModeling.DomainModel\WeatherModeling.DomainModel.csproj" />
+      <ProjectReference Include="..\WeatherModeling\WeatherModeling.Messaging.Adapter\WeatherModeling.Messaging.Adapter.csproj" />
       <ProjectReference Include="..\WeatherReporting\tests\WeatherReporting.UnitTests\WeatherReporting.UnitTests.csproj" />
       <ProjectReference Include="..\WeatherReporting\WeatherReporting.Application\WeatherReporting.Application.csproj" />
       <ProjectReference Include="..\WeatherReporting\WeatherReporting.DomainModel\WeatherReporting.DomainModel.csproj" />
