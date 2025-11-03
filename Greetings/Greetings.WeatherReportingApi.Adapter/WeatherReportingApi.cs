@@ -1,12 +1,12 @@
 ﻿using System.Net.Http.Json;
 using WeatherReporting.PublishedInterfaces;
 
-namespace Greetings.WeatherReporting.Adapter;
+namespace Greetings.WeatherReportingApi.Adapter;
 
 /// <summary>
 /// Proxy client to the Weather Reporting API. Should ideally be a nuget package
 /// </summary>
-internal class WeatherReportingApi : IProvideOnDemandWeatherReport
+public class WeatherReportingApi : IProvideOnDemandWeatherReport
 {
     public OnDemandWeatherReport GetTodaysWeatherFor(string city)
     {

@@ -4,11 +4,11 @@ using OnDemandWeatherReport = WeatherReporting.PublishedInterfaces.OnDemandWeath
 
 namespace WeatherReporting.Application;
 
-internal class OnDemandWeatherReportProvider : IProvideOnDemandWeatherReport
+public class OnDemandWeatherReportProvider : IProvideOnDemandWeatherReport
 {
     private readonly IRetrieveWeatherReport _weatherReportRetriever;
 
-    internal OnDemandWeatherReportProvider(IRetrieveWeatherReport weatherReportRetriever)
+    public OnDemandWeatherReportProvider(IRetrieveWeatherReport weatherReportRetriever)
     {
         _weatherReportRetriever = weatherReportRetriever;
     }

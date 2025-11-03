@@ -3,7 +3,7 @@ using WeatherReporting.PublishedInterfaces;
 
 namespace WeatherReporting.Publishing.Adapter;
 
-internal class InmemoryQueuePublisher : IPublishWeatherReports
+public class InmemoryQueuePublisher : IPublishWeatherReports
 {
     private readonly ConcurrentQueue<OnDemandWeatherReport> _queue;
 

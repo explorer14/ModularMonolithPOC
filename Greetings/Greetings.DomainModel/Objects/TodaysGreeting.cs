@@ -1,8 +1,8 @@
 ﻿namespace Greetings.DomainModel.Objects;
 
-internal record TodaysGreeting(string Message)
+public record TodaysGreeting(string Message)
 {
-    internal static TodaysGreeting BasedOnCityTemperature(CityTemperature cityTemperature)
+    public static TodaysGreeting BasedOnCityTemperature(CityTemperature cityTemperature)
     {
         if (cityTemperature.TemperatureC < 10)
             return new TodaysGreeting($"Its quite chilly today in {cityTemperature.City}. Wrap up warm!");
@@ -17,4 +17,4 @@ internal record TodaysGreeting(string Message)
     }
 }
 
-internal record CityTemperature(string City, decimal TemperatureC);
+public record CityTemperature(string City, decimal TemperatureC);

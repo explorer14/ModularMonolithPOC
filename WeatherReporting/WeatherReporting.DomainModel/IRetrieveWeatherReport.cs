@@ -1,6 +1,6 @@
 ﻿namespace WeatherReporting.DomainModel;
 
-internal interface IRetrieveWeatherReport
+public interface IRetrieveWeatherReport
 {
     OnDemandWeatherReport GetTodaysWeatherFor(string city);
 }

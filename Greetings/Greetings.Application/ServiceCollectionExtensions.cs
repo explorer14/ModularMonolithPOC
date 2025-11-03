@@ -1,7 +1,7 @@
 ﻿using Greetings.DomainModel.Ports;
 using Greetings.PublishedInterfaces;
 using Greetings.Storage.Adapter;
-using Greetings.WeatherReporting.Adapter;
+using Greetings.WeatherReportingApi.Adapter;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -16,7 +16,7 @@ public static class ServiceCollectionExtensions
     // in-proc/lib dependency or out-of-proc/http dependency?
     public static IServiceCollection AddGreetingsModuleWithWeatherReportingApi(this IServiceCollection services)
     {
-        services.AddSingleton<IProvideOnDemandWeatherReport, WeatherReportingApi>();
+        services.AddSingleton<IProvideOnDemandWeatherReport, WeatherReportingApi.Adapter.WeatherReportingApi>();
         return AddServices(services);
     }
 

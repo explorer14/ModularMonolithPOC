@@ -1,6 +1,6 @@
 ﻿namespace WeatherModeling.DomainModel;
 
-internal record WeatherReport(
+public record WeatherReport(
     decimal TemperatureC, 
     decimal TemperatureF, 
     string City, 

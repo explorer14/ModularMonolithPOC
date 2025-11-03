@@ -4,7 +4,7 @@ using WeatherReporting.PublishedInterfaces;
 
 namespace WeatherModeling.Messaging.Adapter;
 
-internal class InMemoryMessageQueueListener
+public class InMemoryMessageQueueListener
 {
     private readonly Func<WeatherReport, Task> _weatherReportEventHandler;
     private ConcurrentQueue<OnDemandWeatherReport> _queue;

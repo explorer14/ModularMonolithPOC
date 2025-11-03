@@ -2,7 +2,7 @@
 
 namespace Greetings.Storage.Adapter;
 
-internal class InmemoryGreetingsRetriever : IRetrieveGreetings
+public class InmemoryGreetingsRetriever : IRetrieveGreetings
 {
     private readonly Stack<TodaysGreeting> _greetings = new();
 

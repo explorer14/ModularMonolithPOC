@@ -2,7 +2,7 @@
 
 namespace Greetings.DomainModel.Ports;
 
-internal interface IRetrieveGreetings
+public interface IRetrieveGreetings
 {
     TodaysGreeting? GetTodaysGreeting();
 }

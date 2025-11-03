@@ -2,7 +2,7 @@
 
 namespace WeatherModeling.Messaging.Adapter;
 
-internal sealed class WeatherReportReceiverHost(InMemoryMessageQueueListener queueListener) : BackgroundService
+public sealed class WeatherReportReceiverHost(InMemoryMessageQueueListener queueListener) : BackgroundService
 {
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {

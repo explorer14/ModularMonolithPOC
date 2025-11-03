@@ -2,7 +2,7 @@
 
 namespace WeatherReporting.ExternalSources.Adapter;
 
-internal class RandomlyGeneratedWeatherReportRetriever : IRetrieveWeatherReport
+public class RandomlyGeneratedWeatherReportRetriever : IRetrieveWeatherReport
 {
     public OnDemandWeatherReport GetTodaysWeatherFor(string city)
     {
