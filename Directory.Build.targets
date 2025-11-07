@@ -1,59 +1,76 @@
 <Project>
     <Target Name="ValidateArchitectureBoundaries" BeforeTargets="Build">
-        <!-- Determine project types based on folder structure -->
+        <!-- Get project name parts -->
         <PropertyGroup>
-            <!-- Extract module name from project directory (first folder after repository root) -->
-            <ModuleName>$([System.Text.RegularExpressions.Regex]::Match($(MSBuildProjectDirectory), "\\([^\\]+)\\").Groups[1].Value)</ModuleName>
-            
-            <!-- Determine project types -->
-            <IsModuleProject Condition="'$(ModuleName)' != ''">true</IsModuleProject>
-            <IsPublishedInterfacesProject Condition="$(MSBuildProjectName.Contains('PublishedInterfaces'))">true</IsPublishedInterfacesProject>
-            <IsAdapterProject Condition="$(MSBuildProjectName.Contains('.Adapter'))">true</IsAdapterProject>
-            <IsDomainModelProject Condition="$(MSBuildProjectName.Contains('.DomainModel'))">true</IsDomainModelProject>
-            <IsApplicationProject Condition="$(MSBuildProjectName.Contains('.Application'))">true</IsApplicationProject>
+            <ProjectName>$(MSBuildProjectName)</ProjectName>
+            <IsModuleProject>$([System.Text.RegularExpressions.Regex]::IsMatch($(ProjectName), '^[^\.]+\.[^\.]+'))</IsModuleProject>
+            <ModuleName Condition="'$(IsModuleProject)'=='true'">$([System.Text.RegularExpressions.Regex]::Match($(ProjectName), '^[^\.]+').Value)</ModuleName>
+            <ProjectType Condition="'$(IsModuleProject)'=='true'">$([System.Text.RegularExpressions.Regex]::Match($(ProjectName), '\.([^\.]+)$').Groups[1].Value)</ProjectType>
+            <IsApiProject>$([System.String]::Copy('$(ProjectName)').EndsWith('.Api'))</IsApiProject>
+            <IsTestProject>$([System.String]::Copy('$(MSBuildProjectDirectory)').Contains('\tests\') or $([System.String]::Copy('$(MSBuildProjectDirectory)').EndsWith('Tests'))</IsTestProject>
+            <IsModuleTestProject>$(IsTestProject) and $(IsModuleProject)</IsModuleTestProject>
+            <IsRootTestProject>$(IsTestProject) and !$(IsModuleProject)</IsRootTestProject>
         </PropertyGroup>
 
-        <!-- Rule 1: Module projects can only reference PublishedInterfaces of other modules -->
-        <ItemGroup Condition="'$(IsModuleProject)' == 'true'">
-            <ForbiddenModuleReferences Include="@(ProjectReference)"
-                                      Condition="$([System.String]::Copy('%(ProjectReference.Identity)').Contains('\')) AND
-                                                !$([System.String]::Copy('%(ProjectReference.Identity)').Contains('$(ModuleName)\')) AND
-                                                !$([System.String]::Copy('%(ProjectReference.Identity)').Contains('PublishedInterfaces')) AND
-                                                !$([System.String]::Copy('%(ProjectReference.Identity)').Contains('Shared\'))"/>
-        </ItemGroup>
+        <!-- Skip architecture validation for API projects since they can reference anything -->
+        <PropertyGroup Condition="'$(IsApiProject)'=='true'">
+            <SkipArchitectureValidation>true</SkipArchitectureValidation>
+        </PropertyGroup>
 
-        <!-- Rule 2: DomainModel projects cannot reference any other projects -->
-        <ItemGroup Condition="'$(IsDomainModelProject)' == 'true'">
-            <ForbiddenDomainModelReferences Include="@(ProjectReference)" />
-        </ItemGroup>
+        <!-- Skip module architecture validation for module test projects since they can reference anything in their module -->
+        <PropertyGroup Condition="'$(IsModuleTestProject)'=='true'">
+            <SkipArchitectureValidation>true</SkipArchitectureValidation>
+        </PropertyGroup>
 
-        <!-- Rule 3: Adapter projects can only reference their module's DomainModel and other modules' PublishedInterfaces -->
-        <ItemGroup Condition="'$(IsAdapterProject)' == 'true'">
-            <ForbiddenAdapterReferences Include="@(ProjectReference)"
-                                       Condition="(!$([System.String]::Copy('%(ProjectReference.Identity)').Contains('$(ModuleName).DomainModel')) AND
-                                                 $([System.String]::Copy('%(ProjectReference.Identity)').Contains('$(ModuleName)'))) OR
-                                                (!$([System.String]::Copy('%(ProjectReference.Identity)').Contains('PublishedInterfaces')) AND
-                                                 !$([System.String]::Copy('%(ProjectReference.Identity)').Contains('$(ModuleName)')) AND
-                                                 !$([System.String]::Copy('%(ProjectReference.Identity)').Contains('Shared')))"/>
+        <!-- Validate root test project references -->
+        <ItemGroup Condition="'$(IsRootTestProject)'=='true'">
+            <InvalidRootTestReference Include="@(ProjectReference)"
+                Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('%(Filename)', '^[^\.]+\.[^\.]+'))" />
         </ItemGroup>
+        <Error
+            Condition="'$(IsRootTestProject)'=='true' and '@(InvalidRootTestReference)'!=''"
+            Text="Root test project $(ProjectName) can only reference non-module projects. Invalid references: @(InvalidRootTestReference)" />
 
-        <!-- Rule 4: PublishedInterfaces projects cannot reference other PublishedInterfaces projects -->
-        <ItemGroup Condition="'$(IsPublishedInterfacesProject)' == 'true'">
-            <CircularPublishedInterfacesReferences Include="@(ProjectReference)"
-                                                  Condition="$([System.String]::Copy('%(ProjectReference.Identity)').Contains('PublishedInterfaces'))"/>
+        <!-- Validate module test project references -->
+        <ItemGroup Condition="'$(IsModuleTestProject)'=='true'">
+            <InvalidModuleTestReference Include="@(ProjectReference)"
+                Condition="!$([System.String]::Copy('%(Filename)').StartsWith('$(ModuleName).')) and
+                          !$([System.String]::Copy('%(Filename)').StartsWith('Shared'))" />
         </ItemGroup>
+        <Error
+            Condition="'$(IsModuleTestProject)'=='true' and '@(InvalidModuleTestReference)'!=''"
+            Text="Module test project $(ProjectName) can only reference projects from its own module ($(ModuleName)) or Shared projects. Invalid references: @(InvalidModuleTestReference)" />
 
-        <!-- Validate rules and show errors -->
-        <Error Text="🚫 Architecture Violation: A module can only reference PublishedInterfaces of other modules or Shared projects. Forbidden reference: %(ForbiddenModuleReferences.Identity)"
-               Condition="'@(ForbiddenModuleReferences)' != ''"/>
-               
-        <Error Text="🚫 Architecture Violation: DomainModel projects cannot reference any other projects. Forbidden reference: %(ForbiddenDomainModelReferences.Identity)"
-               Condition="'@(ForbiddenDomainModelReferences)' != ''"/>
-               
-        <Error Text="🚫 Architecture Violation: Adapter projects can only reference their module's DomainModel and other modules' PublishedInterfaces. Forbidden reference: %(ForbiddenAdapterReferences.Identity)"
-               Condition="'@(ForbiddenAdapterReferences)' != ''"/>
-               
-        <Error Text="🚫 Architecture Violation: PublishedInterfaces projects cannot reference other PublishedInterfaces projects. Forbidden reference: %(CircularPublishedInterfacesReferences.Identity)"
-               Condition="'@(CircularPublishedInterfacesReferences)' != ''"/>
+        <!-- Validate DomainModel project references -->
+        <Error 
+            Condition="'$(SkipArchitectureValidation)'!='true' and '$(ProjectType)'=='DomainModel' and '@(ProjectReference)' != ''"
+            Text="DomainModel project $(ProjectName) is not allowed to reference any other project within the same module" />
+
+        <!-- Validate PublishedInterfaces cross-references -->
+        <Error 
+            Condition="'$(SkipArchitectureValidation)'!='true' and '$(ProjectType)'=='PublishedInterfaces' and '@(ProjectReference->AnyHaveMetadataValue('Filename', '.PublishedInterfaces'))'"
+            Text="PublishedInterfaces project $(ProjectName) must not reference PublishedInterfaces of other modules" />
+
+        <!-- Validate general module project references -->
+        <ItemGroup Condition="'$(SkipArchitectureValidation)'!='true' and '$(IsModuleProject)'=='true' and '$(ProjectType)'!='Application' and '$(ProjectType)'!='DomainModel' and '$(IsModuleTestProject)'=='false'">
+            <InvalidReference Include="@(ProjectReference)"
+                Condition="!$([System.String]::Copy('%(Filename)').EndsWith('.PublishedInterfaces')) and
+                          !$([System.String]::Copy('%(Filename)').StartsWith('$(ModuleName).DomainModel')) and
+                          !$([System.String]::Copy('%(Filename)').StartsWith('Shared'))" />
+        </ItemGroup>
+        <Error
+            Condition="'@(InvalidReference)'!=''"
+            Text="Project $(ProjectName) can only reference PublishedInterfaces of other modules, its own DomainModel, or Shared projects. Invalid references: @(InvalidReference)" />
+
+        <!-- Validate module project external references -->
+        <ItemGroup Condition="'$(SkipArchitectureValidation)'!='true' and '$(IsModuleProject)'=='true'">
+            <OtherModuleReference Include="@(ProjectReference)"
+                Condition="!$([System.String]::Copy('%(Filename)').StartsWith('$(ModuleName).')) and
+                          !$([System.String]::Copy('%(Filename)').StartsWith('Shared')) and
+                          !$([System.String]::Copy('%(Filename)').EndsWith('.PublishedInterfaces'))" />
+        </ItemGroup>
+        <Error
+            Condition="'@(OtherModuleReference)'!=''"
+            Text="Module project $(ProjectName) can only reference PublishedInterfaces projects of other modules. Invalid references: @(OtherModuleReference)" />
     </Target>
 </Project>
