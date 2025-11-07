@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+
+        <IsPackable>false</IsPackable>
+        <IsTestProject>true</IsTestProject>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.0"/>
+        <PackageReference Include="TngTech.ArchUnitNET" Version="0.12.3" />
+        <PackageReference Include="TngTech.ArchUnitNET.xUnit" Version="0.12.3" />
+        <PackageReference Include="xunit" Version="2.4.2"/>
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+        <PackageReference Include="coverlet.collector" Version="6.0.0">
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Greetings\Greetings.Application\Greetings.Application.csproj" />
+      <ProjectReference Include="..\Greetings\Greetings.DomainModel\Greetings.DomainModel.csproj" />
+      <ProjectReference Include="..\Greetings\Greetings.PublishedInterfaces\Greetings.PublishedInterfaces.csproj" />
+      <ProjectReference Include="..\Greetings\Greetings.Storage.Adapter\Greetings.Storage.Adapter.csproj" />
+      <ProjectReference Include="..\Greetings\Greetings.WeatherReportingApi.Adapter\Greetings.WeatherReportingApi.Adapter.csproj" />
+      <ProjectReference Include="..\WeatherModeling\WeatherModeling.Application\WeatherModeling.Application.csproj" />
+      <ProjectReference Include="..\WeatherModeling\WeatherModeling.DomainModel\WeatherModeling.DomainModel.csproj" />
+      <ProjectReference Include="..\WeatherModeling\WeatherModeling.Messaging.Adapter\WeatherModeling.Messaging.Adapter.csproj" />
+      <ProjectReference Include="..\WeatherReporting\tests\WeatherReporting.UnitTests\WeatherReporting.UnitTests.csproj" />
+      <ProjectReference Include="..\WeatherReporting\WeatherReporting.Application\WeatherReporting.Application.csproj" />
+      <ProjectReference Include="..\WeatherReporting\WeatherReporting.DomainModel\WeatherReporting.DomainModel.csproj" />
+      <ProjectReference Include="..\WeatherReporting\WeatherReporting.ExternalSources.Adapter\WeatherReporting.ExternalSources.Adapter.csproj" />
+      <ProjectReference Include="..\WeatherReporting\WeatherReporting.PublishedInterfaces\WeatherReporting.PublishedInterfaces.csproj" />
+      <ProjectReference Include="..\WeatherReporting\WeatherReporting.Publishing.Adapter\WeatherReporting.Publishing.Adapter.csproj" />
+    </ItemGroup>
+
+</Project>

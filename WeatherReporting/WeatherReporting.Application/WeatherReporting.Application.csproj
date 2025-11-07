@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\WeatherReporting.DomainModel\WeatherReporting.DomainModel.csproj" />
+      <ProjectReference Include="..\WeatherReporting.ExternalSources.Adapter\WeatherReporting.ExternalSources.Adapter.csproj" />
+      <ProjectReference Include="..\WeatherReporting.PublishedInterfaces\WeatherReporting.PublishedInterfaces.csproj" />
+      <ProjectReference Include="..\WeatherReporting.Publishing.Adapter\WeatherReporting.Publishing.Adapter.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+
+</Project>

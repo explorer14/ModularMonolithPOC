@@ -1,0 +1,60 @@
+<Project>
+    <Target Name="ValidateArchitectureBoundaries" BeforeTargets="Build">
+        <PropertyGroup>
+            <IsGreetingsProject Condition="$(MSBuildProjectDirectory.Contains('Greetings\'))">true</IsGreetingsProject>
+            <IsGreetingsInternal Condition="$(MSBuildProjectDirectory.Contains('Greetings\')) AND !$(MSBuildProjectDirectory.Contains('PublishedInterfaces'))">true</IsGreetingsInternal>
+            <IsWeatherReportingProject Condition="$(MSBuildProjectDirectory.Contains('WeatherReporting\'))">true</IsWeatherReportingProject>
+            <IsWeatherReportingInternal Condition="$(MSBuildProjectDirectory.Contains('WeatherReporting\')) AND !$(MSBuildProjectDirectory.Contains('PublishedInterfaces'))">true</IsWeatherReportingInternal>
+            <IsWeatherModelingProject Condition="$(MSBuildProjectDirectory.Contains('WeatherModeling\'))">true</IsWeatherModelingProject>
+            <IsWeatherModelingInternal Condition="$(MSBuildProjectDirectory.Contains('WeatherModeling\')) AND !$(MSBuildProjectDirectory.Contains('PublishedInterfaces'))">true</IsWeatherModelingInternal>
+
+            <IsPublishedInterfacesProject Condition="$(MSBuildProjectName.Contains('PublishedInterfaces'))">true</IsPublishedInterfacesProject>
+        </PropertyGroup>
+
+        <ItemGroup Condition="'$(IsGreetingsProject)' == 'true'">
+            <ForbiddenReferences Include="@(ProjectReference)"
+                                 Condition="$([System.String]::Copy('%(ProjectReference.Identity)').Contains('WeatherReporting.DomainModel')) OR 
+                   $([System.String]::Copy('%(ProjectReference.Identity)').Contains('WeatherReporting.Application')) OR
+                   $([System.String]::Copy('%(ProjectReference.Identity)').Contains('WeatherReporting.ExternalSources.Adapter')) OR
+                   $([System.String]::Copy('%(ProjectReference.Identity)').Contains('WeatherReporting.Publishing.Adapter')) OR
+                   $([System.String]::Copy('%(ProjectReference.Identity)').Contains('WeatherModeling.Application')) OR
+                   $([System.String]::Copy('%(ProjectReference.Identity)').Contains('WeatherModeling.Messaging.Adapter')) OR
+                   $([System.String]::Copy('%(ProjectReference.Identity)').Contains('WeatherModeling.DomainModel'))"/>
+        </ItemGroup>
+
+        <ItemGroup Condition="'$(IsWeatherReportingProject)' == 'true'">
+            <ForbiddenReferences Include="@(ProjectReference)"
+                                 Condition="$([System.String]::Copy('%(ProjectReference.Identity)').Contains('Greetings.DomainModel')) OR 
+                   $([System.String]::Copy('%(ProjectReference.Identity)').Contains('Greetings.Application')) OR
+                   $([System.String]::Copy('%(ProjectReference.Identity)').Contains('Greetings.Storage.Adapter')) OR
+                   $([System.String]::Copy('%(ProjectReference.Identity)').Contains('Greetings.WeatherReportingApi.Adapter')) OR
+                   $([System.String]::Copy('%(ProjectReference.Identity)').Contains('WeatherModeling.Application')) OR
+                   $([System.String]::Copy('%(ProjectReference.Identity)').Contains('WeatherModeling.Messaging.Adapter')) OR
+                   $([System.String]::Copy('%(ProjectReference.Identity)').Contains('WeatherModeling.DomainModel'))"/>
+        </ItemGroup>
+
+        <ItemGroup Condition="'$(IsWeatherModelingProject)' == 'true'">
+            <ForbiddenReferences Include="@(ProjectReference)"
+                                 Condition="$([System.String]::Copy('%(ProjectReference.Identity)').Contains('Greetings.DomainModel')) OR 
+                   $([System.String]::Copy('%(ProjectReference.Identity)').Contains('Greetings.Application')) OR
+                   $([System.String]::Copy('%(ProjectReference.Identity)').Contains('Greetings.Storage.Adapter')) OR
+                   $([System.String]::Copy('%(ProjectReference.Identity)').Contains('Greetings.WeatherReportingApi.Adapter')) OR
+                   $([System.String]::Copy('%(ProjectReference.Identity)').Contains('WeatherReporting.Application')) OR
+                   $([System.String]::Copy('%(ProjectReference.Identity)').Contains('WeatherReporting.ExternalSources.Adapter')) OR
+                   $([System.String]::Copy('%(ProjectReference.Identity)').Contains('WeatherReporting.Publishing.Adapter')) OR
+                   $([System.String]::Copy('%(ProjectReference.Identity)').Contains('WeatherReporting.DomainModel'))"/>
+        </ItemGroup>
+
+        <!-- CRITICAL: Prevent PublishedInterfaces projects from referencing each other -->
+        <ItemGroup Condition="'$(IsPublishedInterfacesProject)' == 'true'">
+            <CircularPublishedInterfacesReferences Include="@(ProjectReference)"
+                                                   Condition="$([System.String]::Copy('%(ProjectReference.Identity)').Contains('PublishedInterfaces')) AND
+                   !$([System.String]::Copy('%(ProjectReference.Identity)').Contains('$(MSBuildProjectName)'))" />
+        </ItemGroup>
+
+        <Error Text="🚫 Architecture Violation: A module cannot reference internals of another module. Forbidden reference: %(ForbiddenReferences.Identity)"
+               Condition="'@(ForbiddenReferences)' != ''"/>
+        <Error Text="🚫 Architecture Violation: PublishedInterfaces projects cannot reference other PublishedInterfaces projects (circular dependency). Forbidden reference: %(CircularPublishedInterfacesReferences.Identity)"
+               Condition="'@(CircularPublishedInterfacesReferences)' != ''" />
+    </Target>
+</Project>

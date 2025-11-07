@@ -4,7 +4,7 @@ using Greetings.PublishedInterfaces;
 using WeatherReporting.PublishedInterfaces;
 using TodaysGreeting = Greetings.PublishedInterfaces.TodaysGreeting;
 
-namespace Greetings.ApplicationServices;
+namespace Greetings.Application;
 
 internal class GreetingsProvider(
     IRetrieveGreetings greetingsRetriever, 
