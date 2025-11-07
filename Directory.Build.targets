@@ -1,60 +1,59 @@
 <Project>
     <Target Name="ValidateArchitectureBoundaries" BeforeTargets="Build">
+        <!-- Determine project types based on folder structure -->
         <PropertyGroup>
-            <IsGreetingsProject Condition="$(MSBuildProjectDirectory.Contains('Greetings\'))">true</IsGreetingsProject>
-            <IsGreetingsInternal Condition="$(MSBuildProjectDirectory.Contains('Greetings\')) AND !$(MSBuildProjectDirectory.Contains('PublishedInterfaces'))">true</IsGreetingsInternal>
-            <IsWeatherReportingProject Condition="$(MSBuildProjectDirectory.Contains('WeatherReporting\'))">true</IsWeatherReportingProject>
-            <IsWeatherReportingInternal Condition="$(MSBuildProjectDirectory.Contains('WeatherReporting\')) AND !$(MSBuildProjectDirectory.Contains('PublishedInterfaces'))">true</IsWeatherReportingInternal>
-            <IsWeatherModelingProject Condition="$(MSBuildProjectDirectory.Contains('WeatherModeling\'))">true</IsWeatherModelingProject>
-            <IsWeatherModelingInternal Condition="$(MSBuildProjectDirectory.Contains('WeatherModeling\')) AND !$(MSBuildProjectDirectory.Contains('PublishedInterfaces'))">true</IsWeatherModelingInternal>
-
+            <!-- Extract module name from project directory (first folder after repository root) -->
+            <ModuleName>$([System.Text.RegularExpressions.Regex]::Match($(MSBuildProjectDirectory), "\\([^\\]+)\\").Groups[1].Value)</ModuleName>
+            
+            <!-- Determine project types -->
+            <IsModuleProject Condition="'$(ModuleName)' != ''">true</IsModuleProject>
             <IsPublishedInterfacesProject Condition="$(MSBuildProjectName.Contains('PublishedInterfaces'))">true</IsPublishedInterfacesProject>
+            <IsAdapterProject Condition="$(MSBuildProjectName.Contains('.Adapter'))">true</IsAdapterProject>
+            <IsDomainModelProject Condition="$(MSBuildProjectName.Contains('.DomainModel'))">true</IsDomainModelProject>
+            <IsApplicationProject Condition="$(MSBuildProjectName.Contains('.Application'))">true</IsApplicationProject>
         </PropertyGroup>
 
-        <ItemGroup Condition="'$(IsGreetingsProject)' == 'true'">
-            <ForbiddenReferences Include="@(ProjectReference)"
-                                 Condition="$([System.String]::Copy('%(ProjectReference.Identity)').Contains('WeatherReporting.DomainModel')) OR 
-                   $([System.String]::Copy('%(ProjectReference.Identity)').Contains('WeatherReporting.Application')) OR
-                   $([System.String]::Copy('%(ProjectReference.Identity)').Contains('WeatherReporting.ExternalSources.Adapter')) OR
-                   $([System.String]::Copy('%(ProjectReference.Identity)').Contains('WeatherReporting.Publishing.Adapter')) OR
-                   $([System.String]::Copy('%(ProjectReference.Identity)').Contains('WeatherModeling.Application')) OR
-                   $([System.String]::Copy('%(ProjectReference.Identity)').Contains('WeatherModeling.Messaging.Adapter')) OR
-                   $([System.String]::Copy('%(ProjectReference.Identity)').Contains('WeatherModeling.DomainModel'))"/>
+        <!-- Rule 1: Module projects can only reference PublishedInterfaces of other modules -->
+        <ItemGroup Condition="'$(IsModuleProject)' == 'true'">
+            <ForbiddenModuleReferences Include="@(ProjectReference)"
+                                      Condition="$([System.String]::Copy('%(ProjectReference.Identity)').Contains('\')) AND
+                                                !$([System.String]::Copy('%(ProjectReference.Identity)').Contains('$(ModuleName)\')) AND
+                                                !$([System.String]::Copy('%(ProjectReference.Identity)').Contains('PublishedInterfaces')) AND
+                                                !$([System.String]::Copy('%(ProjectReference.Identity)').Contains('Shared\'))"/>
         </ItemGroup>
 
-        <ItemGroup Condition="'$(IsWeatherReportingProject)' == 'true'">
-            <ForbiddenReferences Include="@(ProjectReference)"
-                                 Condition="$([System.String]::Copy('%(ProjectReference.Identity)').Contains('Greetings.DomainModel')) OR 
-                   $([System.String]::Copy('%(ProjectReference.Identity)').Contains('Greetings.Application')) OR
-                   $([System.String]::Copy('%(ProjectReference.Identity)').Contains('Greetings.Storage.Adapter')) OR
-                   $([System.String]::Copy('%(ProjectReference.Identity)').Contains('Greetings.WeatherReportingApi.Adapter')) OR
-                   $([System.String]::Copy('%(ProjectReference.Identity)').Contains('WeatherModeling.Application')) OR
-                   $([System.String]::Copy('%(ProjectReference.Identity)').Contains('WeatherModeling.Messaging.Adapter')) OR
-                   $([System.String]::Copy('%(ProjectReference.Identity)').Contains('WeatherModeling.DomainModel'))"/>
+        <!-- Rule 2: DomainModel projects cannot reference any other projects -->
+        <ItemGroup Condition="'$(IsDomainModelProject)' == 'true'">
+            <ForbiddenDomainModelReferences Include="@(ProjectReference)" />
         </ItemGroup>
 
-        <ItemGroup Condition="'$(IsWeatherModelingProject)' == 'true'">
-            <ForbiddenReferences Include="@(ProjectReference)"
-                                 Condition="$([System.String]::Copy('%(ProjectReference.Identity)').Contains('Greetings.DomainModel')) OR 
-                   $([System.String]::Copy('%(ProjectReference.Identity)').Contains('Greetings.Application')) OR
-                   $([System.String]::Copy('%(ProjectReference.Identity)').Contains('Greetings.Storage.Adapter')) OR
-                   $([System.String]::Copy('%(ProjectReference.Identity)').Contains('Greetings.WeatherReportingApi.Adapter')) OR
-                   $([System.String]::Copy('%(ProjectReference.Identity)').Contains('WeatherReporting.Application')) OR
-                   $([System.String]::Copy('%(ProjectReference.Identity)').Contains('WeatherReporting.ExternalSources.Adapter')) OR
-                   $([System.String]::Copy('%(ProjectReference.Identity)').Contains('WeatherReporting.Publishing.Adapter')) OR
-                   $([System.String]::Copy('%(ProjectReference.Identity)').Contains('WeatherReporting.DomainModel'))"/>
+        <!-- Rule 3: Adapter projects can only reference their module's DomainModel and other modules' PublishedInterfaces -->
+        <ItemGroup Condition="'$(IsAdapterProject)' == 'true'">
+            <ForbiddenAdapterReferences Include="@(ProjectReference)"
+                                       Condition="(!$([System.String]::Copy('%(ProjectReference.Identity)').Contains('$(ModuleName).DomainModel')) AND
+                                                 $([System.String]::Copy('%(ProjectReference.Identity)').Contains('$(ModuleName)'))) OR
+                                                (!$([System.String]::Copy('%(ProjectReference.Identity)').Contains('PublishedInterfaces')) AND
+                                                 !$([System.String]::Copy('%(ProjectReference.Identity)').Contains('$(ModuleName)')) AND
+                                                 !$([System.String]::Copy('%(ProjectReference.Identity)').Contains('Shared')))"/>
         </ItemGroup>
 
-        <!-- CRITICAL: Prevent PublishedInterfaces projects from referencing each other -->
+        <!-- Rule 4: PublishedInterfaces projects cannot reference other PublishedInterfaces projects -->
         <ItemGroup Condition="'$(IsPublishedInterfacesProject)' == 'true'">
             <CircularPublishedInterfacesReferences Include="@(ProjectReference)"
-                                                   Condition="$([System.String]::Copy('%(ProjectReference.Identity)').Contains('PublishedInterfaces')) AND
-                   !$([System.String]::Copy('%(ProjectReference.Identity)').Contains('$(MSBuildProjectName)'))" />
+                                                  Condition="$([System.String]::Copy('%(ProjectReference.Identity)').Contains('PublishedInterfaces'))"/>
         </ItemGroup>
 
-        <Error Text="🚫 Architecture Violation: A module cannot reference internals of another module. Forbidden reference: %(ForbiddenReferences.Identity)"
-               Condition="'@(ForbiddenReferences)' != ''"/>
-        <Error Text="🚫 Architecture Violation: PublishedInterfaces projects cannot reference other PublishedInterfaces projects (circular dependency). Forbidden reference: %(CircularPublishedInterfacesReferences.Identity)"
-               Condition="'@(CircularPublishedInterfacesReferences)' != ''" />
+        <!-- Validate rules and show errors -->
+        <Error Text="🚫 Architecture Violation: A module can only reference PublishedInterfaces of other modules or Shared projects. Forbidden reference: %(ForbiddenModuleReferences.Identity)"
+               Condition="'@(ForbiddenModuleReferences)' != ''"/>
+               
+        <Error Text="🚫 Architecture Violation: DomainModel projects cannot reference any other projects. Forbidden reference: %(ForbiddenDomainModelReferences.Identity)"
+               Condition="'@(ForbiddenDomainModelReferences)' != ''"/>
+               
+        <Error Text="🚫 Architecture Violation: Adapter projects can only reference their module's DomainModel and other modules' PublishedInterfaces. Forbidden reference: %(ForbiddenAdapterReferences.Identity)"
+               Condition="'@(ForbiddenAdapterReferences)' != ''"/>
+               
+        <Error Text="🚫 Architecture Violation: PublishedInterfaces projects cannot reference other PublishedInterfaces projects. Forbidden reference: %(CircularPublishedInterfacesReferences.Identity)"
+               Condition="'@(CircularPublishedInterfacesReferences)' != ''"/>
     </Target>
 </Project>
