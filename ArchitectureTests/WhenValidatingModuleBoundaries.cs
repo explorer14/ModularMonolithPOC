@@ -1,5 +1,4 @@
 using ArchUnitNET.Domain;
-using ArchUnitNET.Fluent;
 using ArchUnitNET.Loader;
 using ArchUnitNET.xUnit;
 using static ArchUnitNET.Fluent.ArchRuleDefinition;
@@ -61,5 +60,67 @@ public class WhenValidatingModuleBoundaries
             .OnlyDependOn(allowedDependenciesForGreetingsModule);
 
         rule.Check(Architecture);
+    }
+
+    [Fact]
+    public void AProjectInOneNamespaceShouldOnlyReferencePublishedInterfacesOfAnotherNamespace()
+    {
+        var namespaces = new[] { "Greetings", "WeatherReporting", "WeatherModeling" };
+
+        foreach (var sourceNamespace in namespaces)
+        {
+            var allowedDependencies = Types()
+                .That()
+                .ResideInNamespaceMatching($"{sourceNamespace}.*")
+                .Or()
+                .ResideInAssemblyMatching("System.*")
+                .Or()
+                .ResideInAssemblyMatching("Microsoft.*");
+
+            // Add PublishedInterfaces from other namespaces as allowed dependencies
+            foreach (var targetNamespace in namespaces)
+            {
+                if (targetNamespace != sourceNamespace)
+                {
+                    allowedDependencies = allowedDependencies
+                        .Or()
+                        .ResideInNamespaceMatching($"{targetNamespace}.PublishedInterfaces.*");
+                }
+            }
+
+            var allowedDependenciesWithRule = allowedDependencies.As("Allowed dependencies");
+
+            var otherNamespaces = Types()
+                .That()
+                .ResideInNamespaceMatching(".*")
+                .And()
+                .DoNotResideInNamespaceMatching($"{sourceNamespace}.*")
+                .And()
+                .DoNotResideInAssemblyMatching("System.*")
+                .And()
+                .DoNotResideInAssemblyMatching("Microsoft.*");
+
+            foreach (var targetNamespace in namespaces)
+            {
+                if (targetNamespace != sourceNamespace)
+                {
+                    otherNamespaces = otherNamespaces
+                        .And()
+                        .DoNotResideInNamespaceMatching($"{targetNamespace}.PublishedInterfaces.*");
+                }
+            }
+
+            var disallowedDependencies = otherNamespaces.As("Disallowed dependencies");
+
+            Types()
+                .That()
+                .ResideInNamespaceMatching($"{sourceNamespace}.*")
+                .Should()
+                .NotDependOnAny(disallowedDependencies)
+                .AndShould()
+                .OnlyDependOn(allowedDependenciesWithRule)
+                .Because($"{sourceNamespace} should only depend on PublishedInterfaces of other modules")
+                .Check(Architecture);
+        }
     }
 }
