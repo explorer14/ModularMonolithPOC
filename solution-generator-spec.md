@@ -32,6 +32,12 @@ Create a Powershell script to generate the solution structure for a modular mono
 10. The script shall then add these all these projects to the solution file using `dotnet sln add` 
    command.
 
-11. The script shall then run `dotnet build` command to validate that the solution compiles 
+11. The script shall then add an xUnit test project called `ArchitectureTests` in the root of 
+    the solution, add references 
+    to all module projects in the `src` folders and finally, install the 
+    latest version of `TngTech.ArchUnitNET.xUnit` and `TngTech.ArchUnitNET` packages.
+
+12. The script shall then run `dotnet build` command to validate that the solution compiles 
    without failure.
-12. If there are no failures, the script 
+
+13. If there are no failures, the script should terminate with a success message 

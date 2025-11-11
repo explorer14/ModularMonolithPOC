@@ -1,3 +1,8 @@
+## Agent Prompt
+Implement the following module dependency rules as architecture tests in `UnitTest1` using 
+the `ArchUnitNet` package that's already installed. Write one test per rule and run the architecture 
+tests to ensure they all pass.
+
 ## General Rules
 
 1. A module is a namespace folder that is named for the business capability the underlying code supports

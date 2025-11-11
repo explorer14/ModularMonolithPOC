@@ -47,6 +47,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherReporting.ExternalSo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchitectureTests", "ArchitectureTests\ArchitectureTests.csproj", "{5D5F170B-F776-4306-983D-7D1124D157D1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchitectureTestGenerator", "ArchitectureTestGenerator\ArchitectureTestGenerator.csproj", "{9767CC9D-D8A9-4899-BD78-FF6C15A2BE65}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -124,6 +126,10 @@ Global
 		{5D5F170B-F776-4306-983D-7D1124D157D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D5F170B-F776-4306-983D-7D1124D157D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D5F170B-F776-4306-983D-7D1124D157D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9767CC9D-D8A9-4899-BD78-FF6C15A2BE65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9767CC9D-D8A9-4899-BD78-FF6C15A2BE65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9767CC9D-D8A9-4899-BD78-FF6C15A2BE65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9767CC9D-D8A9-4899-BD78-FF6C15A2BE65}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{89062357-E5B6-4029-8145-67221CC0FCD9} = {82FEC17F-555C-4F2B-8406-A1F59F303DF9}
