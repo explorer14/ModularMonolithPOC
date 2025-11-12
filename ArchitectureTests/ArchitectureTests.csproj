@@ -43,4 +43,6 @@
       <ProjectReference Include="..\WeatherReporting\WeatherReporting.Publishing.Adapter\WeatherReporting.Publishing.Adapter.csproj" />
     </ItemGroup>
 
+  <Import Project="DiscoverModules.targets" />
+
 </Project>

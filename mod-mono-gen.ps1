@@ -206,6 +206,62 @@ dotnet add $archTestProject package TngTech.ArchUnitNET
 # Add ArchitectureTests to solution
 dotnet sln add $archTestProject
 
+# Create DiscoverModules.targets file
+Write-Host "Creating DiscoverModules.targets file..." -ForegroundColor Yellow
+$targetsContent = @"
+<Project>
+  <Target Name="DiscoverModules" BeforeTargets="CoreCompile">
+    <PropertyGroup>
+      <ModulesOutputFile>`$(MSBuildProjectDirectory)\modules.mod</ModulesOutputFile>
+    </PropertyGroup>
+
+    <!-- Find all directories in the solution root -->
+    <ItemGroup>
+      <ModuleDirectories Include="`$(MSBuildProjectDirectory)\..\*" />
+    </ItemGroup>
+
+    <!-- Find all csproj files in module directories (excluding tests) -->
+    <ItemGroup>
+      <AllModuleCsprojFiles Include="`$(MSBuildProjectDirectory)\..\*\*\*.csproj" Exclude="`$(MSBuildProjectDirectory)\..\*\tests\**\*.csproj" />
+      <AllModuleCsprojFilesInSrc Include="`$(MSBuildProjectDirectory)\..\*\src\*\*.csproj" />
+    </ItemGroup>
+
+    <!-- Collect all project names -->
+    <ItemGroup>
+      <ModuleProjectNames Include="@(AllModuleCsprojFiles->'%(Filename)')" />
+      <ModuleProjectNames Include="@(AllModuleCsprojFilesInSrc->'%(Filename)')" />
+    </ItemGroup>
+
+    <!-- Write project names to output file -->
+    <WriteLinesToFile
+      File="`$(ModulesOutputFile)"
+      Lines="@(ModuleProjectNames)"
+      Overwrite="true"
+      Condition="'@(ModuleProjectNames)' != ''" />
+
+    <Message Text="Discovered module projects: @(ModuleProjectNames, ', ')" Importance="high" Condition="'@(ModuleProjectNames)' != ''" />
+    <Message Text="Module information written to: `$(ModulesOutputFile)" Importance="high" Condition="'@(ModuleProjectNames)' != ''" />
+  </Target>
+
+  <!-- Add the generated modules.mod file to AdditionalFiles for source generators -->
+  <ItemGroup>
+    <AdditionalFiles Include="`$(MSBuildProjectDirectory)\modules.mod" Condition="Exists('`$(MSBuildProjectDirectory)\modules.mod')" />
+  </ItemGroup>
+</Project>
+"@
+Set-Content -Path (Join-Path $archTestProject "DiscoverModules.targets") -Value $targetsContent
+
+# Update ArchitectureTests.csproj to import the targets file
+Write-Host "Updating ArchitectureTests.csproj to import DiscoverModules.targets..." -ForegroundColor Yellow
+$csprojPath = Join-Path $archTestProject "ArchitectureTests.csproj"
+$csprojContent = Get-Content $csprojPath -Raw
+
+# Add the Import statement before the closing </Project> tag
+$importStatement = "`n  <Import Project=`"DiscoverModules.targets`" />`n"
+$csprojContent = $csprojContent -replace '</Project>', "$importStatement</Project>"
+
+Set-Content -Path $csprojPath -Value $csprojContent
+
 Write-Host "ArchitectureTests project created successfully!" -ForegroundColor Green
 
 # Step 10: Build solution to validate
