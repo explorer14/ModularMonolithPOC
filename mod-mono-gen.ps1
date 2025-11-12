@@ -264,7 +264,22 @@ Set-Content -Path $csprojPath -Value $csprojContent
 
 Write-Host "ArchitectureTests project created successfully!" -ForegroundColor Green
 
-# Step 10: Build solution to validate
+# Step 10: Copy create-new-module.ps1 script to the solution root
+Write-Host ""
+Write-Host "=== Copying Module Creation Script ===" -ForegroundColor Cyan
+$scriptSource = Join-Path $PSScriptRoot "create-new-module.ps1"
+
+if (Test-Path $scriptSource) {
+    Write-Host "Copying create-new-module.ps1 to solution root..." -ForegroundColor Yellow
+    $scriptDest = Join-Path $solutionDir "create-new-module.ps1"
+    Copy-Item -Path $scriptSource -Destination $scriptDest -Force
+    Write-Host "Module creation script copied successfully!" -ForegroundColor Green
+}
+else {
+    Write-Host "Warning: create-new-module.ps1 not found in script directory" -ForegroundColor Yellow
+}
+
+# Step 11: Build solution to validate
 Write-Host ""
 Write-Host "=== Building Solution ===" -ForegroundColor Cyan
 Write-Host "Running 'dotnet build' to validate solution..." -ForegroundColor Yellow
