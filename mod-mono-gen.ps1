@@ -174,11 +174,15 @@ namespace $moduleName.PublishedInterfaces
     dotnet sln add $applicationProject
     dotnet sln add $publishedInterfacesProject
     dotnet sln add $testProject
+    
+    # Step 9. Wire up some known dependencies
+    dotnet add $applicationProject reference "$publishedInterfacesProject/$moduleName.PublishedInterfaces.csproj"
+    dotnet add $applicationProject reference "$domainModelProject/$moduleName.DomainModel.csproj"
 
     Write-Host "Module $moduleName created successfully!" -ForegroundColor Green
 }
 
-# Step 9: Create ArchitectureTests project
+# Step 10: Create ArchitectureTests project
 Write-Host ""
 Write-Host "=== Creating ArchitectureTests Project ===" -ForegroundColor Cyan
 
@@ -264,7 +268,7 @@ Set-Content -Path $csprojPath -Value $csprojContent
 
 Write-Host "ArchitectureTests project created successfully!" -ForegroundColor Green
 
-# Step 10: Copy create-new-module.ps1 script to the solution root
+# Step 11: Copy create-new-module.ps1 script to the solution root
 Write-Host ""
 Write-Host "=== Copying Module Creation Script ===" -ForegroundColor Cyan
 $scriptSource = Join-Path $PSScriptRoot "create-new-module.ps1"
