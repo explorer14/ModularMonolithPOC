@@ -43,4 +43,12 @@
       <ProjectReference Include="..\WeatherReporting\WeatherReporting.Publishing.Adapter\WeatherReporting.Publishing.Adapter.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\ArchTestSourceGenerator\ArchTestSourceGenerator.csproj"
+                        OutputItemType="Analyzer"
+                        ReferenceOutputAssembly="false" />
+    </ItemGroup>
+
+  <Import Project="DiscoverModules.targets" />
+
 </Project>

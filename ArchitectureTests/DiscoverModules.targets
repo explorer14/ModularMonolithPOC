@@ -1,0 +1,48 @@
+<Project>
+  <Target Name="DiscoverModules" BeforeTargets="BeforeBuild;CoreCompile">
+    <Message Text="===== Starting Module Discovery =====" Importance="high" />
+
+    <PropertyGroup>
+      <ModulesOutputFile>$(MSBuildProjectDirectory)\modules.mod</ModulesOutputFile>
+    </PropertyGroup>
+
+    <Message Text="Output file will be: $(ModulesOutputFile)" Importance="high" />
+
+    <!-- Find all directories in the solution root -->
+    <ItemGroup>
+      <ModuleDirectories Include="$(MSBuildProjectDirectory)\..\*" />
+    </ItemGroup>
+
+    <Message Text="Searching in: $(MSBuildProjectDirectory)\.." Importance="high" />
+
+    <!-- Find all csproj files in module directories (excluding tests) -->
+    <ItemGroup>
+      <AllModuleCsprojFiles Include="$(MSBuildProjectDirectory)\..\*\*\*.csproj" Exclude="$(MSBuildProjectDirectory)\..\*\tests\**\*.csproj" />
+      <AllModuleCsprojFilesInSrc Include="$(MSBuildProjectDirectory)\..\*\src\*\*.csproj" />
+    </ItemGroup>
+
+    <Message Text="Found module projects: @(AllModuleCsprojFiles->'%(Filename)', ', ')" Importance="high" />
+    <Message Text="Found module projects in src: @(AllModuleCsprojFilesInSrc->'%(Filename)', ', ')" Importance="high" />
+
+    <!-- Collect all project names -->
+    <ItemGroup>
+      <ModuleProjectNames Include="@(AllModuleCsprojFiles->'%(Filename)')" />
+      <ModuleProjectNames Include="@(AllModuleCsprojFilesInSrc->'%(Filename)')" />
+    </ItemGroup>
+
+    <!-- Write project names to output file -->
+    <WriteLinesToFile
+      File="$(ModulesOutputFile)"
+      Lines="@(ModuleProjectNames)"
+      Overwrite="true"
+      Condition="'@(ModuleProjectNames)' != ''" />
+
+    <Message Text="Discovered module projects: @(ModuleProjectNames, ', ')" Importance="high" Condition="'@(ModuleProjectNames)' != ''" />
+    <Message Text="Module information written to: $(ModulesOutputFile)" Importance="high" Condition="'@(ModuleProjectNames)' != ''" />
+  </Target>
+
+  <!-- Add the generated modules.mod file to AdditionalFiles for source generators -->
+  <ItemGroup>
+    <AdditionalFiles Include="$(MSBuildProjectDirectory)\modules.mod" Condition="Exists('$(MSBuildProjectDirectory)\modules.mod')" />
+  </ItemGroup>
+</Project>

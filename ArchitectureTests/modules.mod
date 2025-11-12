@@ -1,0 +1,13 @@
+Greetings.Application
+Greetings.DomainModel
+Greetings.PublishedInterfaces
+Greetings.Storage.Adapter
+Greetings.WeatherReportingApi.Adapter
+WeatherModeling.Application
+WeatherModeling.DomainModel
+WeatherModeling.Messaging.Adapter
+WeatherReporting.Application
+WeatherReporting.DomainModel
+WeatherReporting.ExternalSources.Adapter
+WeatherReporting.PublishedInterfaces
+WeatherReporting.Publishing.Adapter
