@@ -112,6 +112,51 @@ foreach ($moduleName in $modules) {
     Write-Host "  Creating $moduleName.PublishedInterfaces..." -ForegroundColor Gray
     dotnet new classlib -o $publishedInterfacesProject
 
+    # Create DoNotDelete.cs marker class in each project
+    Write-Host "  Creating DoNotDelete.cs marker classes..." -ForegroundColor Gray
+
+    $doNotDeleteContent = @"
+namespace $moduleName.DomainModel
+{
+    /// <summary>
+    /// Marker class used for assembly discovery in architecture tests.
+    /// Do not delete this class.
+    /// </summary>
+    public class DoNotDelete
+    {
+    }
+}
+"@
+    Set-Content -Path (Join-Path $domainModelProject "DoNotDelete.cs") -Value $doNotDeleteContent
+
+    $doNotDeleteContent = @"
+namespace $moduleName.Application
+{
+    /// <summary>
+    /// Marker class used for assembly discovery in architecture tests.
+    /// Do not delete this class.
+    /// </summary>
+    public class DoNotDelete
+    {
+    }
+}
+"@
+    Set-Content -Path (Join-Path $applicationProject "DoNotDelete.cs") -Value $doNotDeleteContent
+
+    $doNotDeleteContent = @"
+namespace $moduleName.PublishedInterfaces
+{
+    /// <summary>
+    /// Marker class used for assembly discovery in architecture tests.
+    /// Do not delete this class.
+    /// </summary>
+    public class DoNotDelete
+    {
+    }
+}
+"@
+    Set-Content -Path (Join-Path $publishedInterfacesProject "DoNotDelete.cs") -Value $doNotDeleteContent
+
     # Create test project in tests folder
     $testProject = Join-Path $testsFolder "$moduleName.Application.Tests"
 
