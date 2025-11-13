@@ -49,6 +49,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchitectureTests", "Archit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchTestSourceGenerator", "ArchTestSourceGenerator\ArchTestSourceGenerator.csproj", "{692A4EB1-3041-41A2-858E-2CC18648932F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{CCCBB02F-39B8-4A57-833D-6C0D0179D5BA}"
+	ProjectSection(SolutionItems) = preProject
+		docs\arch-test-source-generator-spec.MD = docs\arch-test-source-generator-spec.MD
+		docs\module-dependency-rules.MD = docs\module-dependency-rules.MD
+		docs\solution-generator-spec.md = docs\solution-generator-spec.md
+		docs\Step 1 ModularMonolith.png = docs\Step 1 ModularMonolith.png
+		docs\Step 2 ModularMonolith_AsyncWeatherModeling_Module.png = docs\Step 2 ModularMonolith_AsyncWeatherModeling_Module.png
+		docs\Step 3 ModularMonolith_After_Splitting_WeatherAPI.png = docs\Step 3 ModularMonolith_After_Splitting_WeatherAPI.png
+		docs\WeatherReporting_TypeDeps.png = docs\WeatherReporting_TypeDeps.png
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
