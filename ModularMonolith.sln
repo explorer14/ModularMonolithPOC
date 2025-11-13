@@ -60,6 +60,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{CCCBB02F-3
 		docs\WeatherReporting_TypeDeps.png = docs\WeatherReporting_TypeDeps.png
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{45907C60-2449-4D8D-9E47-97F99FA295DE}"
+	ProjectSection(SolutionItems) = preProject
+		scripts\mod-mono-gen.ps1 = scripts\mod-mono-gen.ps1
+		scripts\create-new-module.ps1 = scripts\create-new-module.ps1
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
