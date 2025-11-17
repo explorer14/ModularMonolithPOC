@@ -1,0 +1,141 @@
+version: "3.8"
+services:
+  greetings-module-db-server:
+    hostname: greetings-module-db-server
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: greetings-module-db-server
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: SuperPass123
+      MSSQL_PID: Developer
+    restart: on-failure
+    ports:
+      - "7978:1433"
+    healthcheck:
+      test: /opt/mssql-tools18/bin/sqlcmd -No -S localhost -U sa -P SuperPass123 -d GreetingsDB -Q "SELECT 1" -b
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    volumes:
+      - ./Greetings/database/:/docker-entrypoint-initdb.d/sqlboot/
+    command: /bin/bash -c "(/opt/mssql/bin/sqlservr &) && sleep 35s && /opt/mssql-tools18/bin/sqlcmd -No -S localhost -U sa -P SuperPass123 -d master -i /docker-entrypoint-initdb.d/sqlboot/boot.sql && sleep infinity"
+
+  greetings-flyway-migrations:
+    image: flyway/flyway
+    container_name: greetings-flyway-migrations
+    command: -url="jdbc:sqlserver://greetings-module-db-server:1433;databaseName=GreetingsDB;trustServerCertificate=true" -user=sa -password=SuperPass123 migrate
+    volumes:
+      - ./Greetings/database/migrations:/flyway/sql
+    depends_on:
+      greetings-module-db-server:
+        condition: service_healthy
+    restart: on-failure
+
+  weather-db-server:
+    image: mysql:latest
+    container_name: weather-db-server
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+    volumes:
+      - ./databases:/docker-entrypoint-initdb.d
+      - ./databases/mysqlconf:/etc/mysql/conf.d
+    healthcheck:
+      test: [ "CMD-SHELL", "mysqladmin ping -h localhost -u root -proot123 && mysql -u root -proot123 -e 'USE WeatherModelingDB; USE WeatherReportingDB;'" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+  
+  weather-modeling-flyway-migrations:
+    image: flyway/flyway
+    command: -url=jdbc:mysql://weather-db-server?allowPublicKeyRetrieval=true -schemas=WeatherModelingDB -user=root -password=root123 migrate
+    volumes:
+      - ./WeatherModeling/database/migrations:/flyway/sql
+    depends_on:
+      weather-db-server:
+        condition: service_healthy
+    restart: on-failure
+  
+  weather-reporting-flyway-migrations:
+    image: flyway/flyway
+    command: -url=jdbc:mysql://weather-db-server?allowPublicKeyRetrieval=true -schemas=WeatherReportingDB -user=root -password=root123 migrate
+    volumes:
+      - ./WeatherReporting/database/migrations:/flyway/sql
+    depends_on:
+      weather-db-server:
+        condition: service_healthy
+    restart: on-failure
+  
+  modular-monolith-api:
+    build:
+      context: .
+      dockerfile: ModularMonolith.Api/Dockerfile
+    restart: on-failure
+    ports:
+      - "1983:1983"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      #- ConnectionStrings:TraxpenseConnection=Server=traxpense-sql-server-db;Database=TraxpenseDB;User Id=sa;Password=SuperPass123;TrustServerCertificate=true
+    depends_on:
+      greetings-flyway-migrations:
+        condition: service_completed_successfully
+      weather-modeling-flyway-migrations:
+        condition: service_completed_successfully
+      weather-reporting-flyway-migrations:
+        condition: service_completed_successfully
+    volumes:
+      - ./certs:/https:ro
+    healthcheck:
+      test: [ "CMD-SHELL", "timeout 10s bash -c ':> /dev/tcp/localhost/1983' || exit 1" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+      
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.6.0
+    restart: always
+    hostname: zookeeper
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  kafka-broker:
+    image: confluentinc/cp-kafka:7.6.0
+    hostname: kafka-broker
+    container_name: kafka-broker
+    depends_on:
+      - zookeeper
+    ports:
+      - "29092:29092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-broker:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  kafka-broker-init:
+    image: confluentinc/cp-kafka:7.6.0
+    depends_on:
+      - kafka-broker
+    entrypoint: [ '/bin/sh', '-c' ]
+    command: |
+      "
+      # blocks until kafka is reachable
+      echo 'Waiting for Kafka to be ready...'
+      kafka-topics --bootstrap-server kafka-broker:9092 --list
+
+      echo 'Creating kafka topics...'
+      kafka-topics --bootstrap-server kafka-broker:9092 --create --if-not-exists --topic weather-events --replication-factor 1 --partitions 3
+
+      echo 'Successfully created the following topics:'
+      kafka-topics --bootstrap-server kafka-broker:9092 --list
+      "
