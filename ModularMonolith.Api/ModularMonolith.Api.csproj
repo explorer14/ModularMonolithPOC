@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <InvariantGlobalization>true</InvariantGlobalization>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,6 +19,12 @@
     <ProjectReference Include="..\SharedInfrastructure\SharedInfrastructure.csproj" />
     <ProjectReference Include="..\WeatherModeling\WeatherModeling.Application\WeatherModeling.Application.csproj" />
     <ProjectReference Include="..\WeatherReporting\WeatherReporting.Application\WeatherReporting.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\.dockerignore">
+      <Link>.dockerignore</Link>
+    </Content>
   </ItemGroup>
 
 </Project>

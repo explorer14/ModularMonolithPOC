@@ -66,6 +66,42 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{4590
 		scripts\create-new-module.ps1 = scripts\create-new-module.ps1
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "database", "database", "{135413A2-D300-4AEC-9940-D3D6F0CB4802}"
+	ProjectSection(SolutionItems) = preProject
+		Greetings\database\boot.sql = Greetings\database\boot.sql
+		Greetings\database\provision-db.sql = Greetings\database\provision-db.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "migrations", "migrations", "{3A257D1D-1E81-470E-B664-D771A90016AA}"
+	ProjectSection(SolutionItems) = preProject
+		Greetings\database\migrations\V1__InitialSchema.sql = Greetings\database\migrations\V1__InitialSchema.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "database", "database", "{E7BD01E3-8B3A-4844-BC75-F2C5300E8318}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "migrations", "migrations", "{78B45918-6BA0-41CE-BFC3-7DB6D9978A55}"
+	ProjectSection(SolutionItems) = preProject
+		WeatherModeling\database\migrations\V1__InitialSchema.sql = WeatherModeling\database\migrations\V1__InitialSchema.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "database", "database", "{A51047AB-F1E7-4DCB-8904-F2D0851A449E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "migrations", "migrations", "{972960BF-8331-40E6-832F-0CE5604EBD7A}"
+	ProjectSection(SolutionItems) = preProject
+		WeatherReporting\database\migrations\V1__InitialSchema.sql = WeatherReporting\database\migrations\V1__InitialSchema.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "databases", "databases", "{FA8DA5BE-058A-4DB5-A429-94DC3A26904E}"
+	ProjectSection(SolutionItems) = preProject
+		databases\init_wm.sql = databases\init_wm.sql
+		databases\init_wr.sql = databases\init_wr.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mysqlconf", "mysqlconf", "{BC774119-4C45-48EC-96FB-A26E964AA106}"
+	ProjectSection(SolutionItems) = preProject
+		databases\mysqlconf\my.cnf = databases\mysqlconf\my.cnf
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -165,5 +201,12 @@ Global
 		{4FCD1443-A5C5-480B-88BF-045413FD4FC0} = {910E4113-361E-4AB4-99E8-3E844E977596}
 		{3174CF4A-B69E-4A5D-84F5-C3A02F5E2553} = {910E4113-361E-4AB4-99E8-3E844E977596}
 		{01A2B8EC-1DBE-46D9-940D-7B0E9F865B43} = {910E4113-361E-4AB4-99E8-3E844E977596}
+		{135413A2-D300-4AEC-9940-D3D6F0CB4802} = {82FEC17F-555C-4F2B-8406-A1F59F303DF9}
+		{3A257D1D-1E81-470E-B664-D771A90016AA} = {135413A2-D300-4AEC-9940-D3D6F0CB4802}
+		{E7BD01E3-8B3A-4844-BC75-F2C5300E8318} = {2D28F931-0DA0-4B4E-A26E-168BFAEEE00E}
+		{78B45918-6BA0-41CE-BFC3-7DB6D9978A55} = {E7BD01E3-8B3A-4844-BC75-F2C5300E8318}
+		{A51047AB-F1E7-4DCB-8904-F2D0851A449E} = {910E4113-361E-4AB4-99E8-3E844E977596}
+		{972960BF-8331-40E6-832F-0CE5604EBD7A} = {A51047AB-F1E7-4DCB-8904-F2D0851A449E}
+		{BC774119-4C45-48EC-96FB-A26E964AA106} = {FA8DA5BE-058A-4DB5-A429-94DC3A26904E}
 	EndGlobalSection
 EndGlobal
