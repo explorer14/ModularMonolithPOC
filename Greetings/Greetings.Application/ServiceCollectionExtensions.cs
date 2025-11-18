@@ -27,7 +27,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddDbContext<GreetingsDbContext>(options => 
             options.UseSqlServer(
-                connectionString: "Server=greetings-module-db-server;Database=GreetingsDB;user=sa;Password=SuperPass123;MultipleActiveResultSets=true"));
+                connectionString: "Server=localhost,7978;Database=GreetingsDB;user=sa;Password=SuperPass123;MultipleActiveResultSets=true"));
         services.AddSingleton<IRetrieveGreetings, InmemoryGreetingsRetriever>();
         services.AddScoped<IProvideGreetings>(serviceProvider =>
             new GreetingsProvider(greetingsRetriever: serviceProvider.GetService<IRetrieveGreetings>()!,
