@@ -6,6 +6,7 @@ using WeatherReporting.DomainModel;
 using WeatherReporting.ExternalSources.Adapter;
 using WeatherReporting.PublishedInterfaces;
 using WeatherReporting.Publishing.Adapter;
+using WeatherReporting.Storage.Adapter;
 
 namespace WeatherReporting.Application;
 
@@ -16,7 +17,8 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IPublishWeatherReports, InmemoryQueuePublisher>()
             .AddSingleton<IRetrieveWeatherReport, RandomlyGeneratedWeatherReportRetriever>()
             .AddSingleton<IProvideOnDemandWeatherReport>(serviceProvider =>
-                new OnDemandWeatherReportProvider(serviceProvider.GetService<IRetrieveWeatherReport>()));
+                new OnDemandWeatherReportProvider(serviceProvider.GetService<IRetrieveWeatherReport>()))
+            .AddSingleton<IWeatherReportRepository, MySqlWeatherReportRepository>();
 
         return services;
     }

@@ -11,3 +11,4 @@ WeatherReporting.DomainModel
 WeatherReporting.ExternalSources.Adapter
 WeatherReporting.PublishedInterfaces
 WeatherReporting.Publishing.Adapter
+WeatherReporting.Storage.Adapter

@@ -19,6 +19,7 @@ public class WhenGettingTodaysWeatherReportForACity
         var weatherReportProvider = new OnDemandWeatherReportProvider(
             new StubWeatherRetriever(
                 new OnDemandWeatherReport(
+                    City: "any city",
                     TemperatureC: 10,
                     ReportedOn: new DateTimeOffset(2024, 7, 30, 15, 16, 0, TimeSpan.FromHours(2)))));
         var actualWeatherReport = weatherReportProvider.GetTodaysWeatherFor("any city");
