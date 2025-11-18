@@ -8,17 +8,13 @@ namespace Greetings.Application;
 
 internal class GreetingsProvider(
     IRetrieveGreetings greetingsRetriever, 
-    IProvideOnDemandWeatherReport onDemandWeatherReportProvider) : IProvideGreetings
+    IProvideOnDemandWeatherReport onDemandWeatherReportProvider,
+    IGreetingsRepository greetingsRepository) : IProvideGreetings
 {
+    [Obsolete("Superseded by GetTodaysGreetingAsync")]
     public TodaysGreeting GetTodaysGreeting()
     {
-        var todaysGreeting = greetingsRetriever.GetTodaysGreeting();
-
-        if (todaysGreeting == null)
-            return new TodaysGreeting(
-                "Sorry, our greeting fairy didn't deliver any messages today, please come back tomorrow!");
-
-        return new TodaysGreeting(todaysGreeting.Message);
+        return GetTodaysGreetingAsync().ConfigureAwait(false).GetAwaiter().GetResult();
     }
 
     public TodaysWeatherBasedGreeting GetTodaysWeatherBasedGreetingFor(string city)
@@ -30,5 +26,17 @@ internal class GreetingsProvider(
                 weatherReport.TemperatureC));
         
         return new TodaysWeatherBasedGreeting(city, greetingsBasedOnCityTemp.Message);
+    }
+
+    public async Task<TodaysGreeting> GetTodaysGreetingAsync()
+    {
+        var todaysGreeting = greetingsRetriever.GetTodaysGreeting();
+
+        if (todaysGreeting == null)
+            return new TodaysGreeting(
+                "Sorry, our greeting fairy didn't deliver any messages today, please come back tomorrow!");
+        await greetingsRepository.AddGreeting(todaysGreeting);
+
+        return new TodaysGreeting(todaysGreeting.Message);
     }
 }

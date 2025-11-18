@@ -29,10 +29,11 @@ public static class ServiceCollectionExtensions
             options.UseSqlServer(
                 connectionString: "Server=greetings-module-db-server;Database=GreetingsDB;user=sa;Password=SuperPass123;MultipleActiveResultSets=true"));
         services.AddSingleton<IRetrieveGreetings, InmemoryGreetingsRetriever>();
-        services.AddSingleton<IProvideGreetings>(serviceProvider =>
+        services.AddScoped<IProvideGreetings>(serviceProvider =>
             new GreetingsProvider(greetingsRetriever: serviceProvider.GetService<IRetrieveGreetings>()!,
-                onDemandWeatherReportProvider: serviceProvider.GetService<IProvideOnDemandWeatherReport>()))
-            .AddSingleton<IGreetingsRepository, SqlServerGreetingsRepository>();
+                onDemandWeatherReportProvider: serviceProvider.GetService<IProvideOnDemandWeatherReport>(),
+                greetingsRepository: serviceProvider.GetService<IGreetingsRepository>()))
+            .AddScoped<IGreetingsRepository, SqlServerGreetingsRepository>();
 
         return services;
     }
