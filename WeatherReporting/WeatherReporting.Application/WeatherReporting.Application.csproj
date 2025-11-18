@@ -11,6 +11,7 @@
       <ProjectReference Include="..\WeatherReporting.ExternalSources.Adapter\WeatherReporting.ExternalSources.Adapter.csproj" />
       <ProjectReference Include="..\WeatherReporting.PublishedInterfaces\WeatherReporting.PublishedInterfaces.csproj" />
       <ProjectReference Include="..\WeatherReporting.Publishing.Adapter\WeatherReporting.Publishing.Adapter.csproj" />
+      <ProjectReference Include="..\WeatherReporting.Storage.Adapter\WeatherReporting.Storage.Adapter.csproj" />
     </ItemGroup>
 
     <ItemGroup>

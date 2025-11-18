@@ -6,6 +6,6 @@ public class RandomlyGeneratedWeatherReportRetriever : IRetrieveWeatherReport
 {
     public OnDemandWeatherReport GetTodaysWeatherFor(string city)
     {
-        return new OnDemandWeatherReport(23m, DateTimeOffset.Now);
+        return new OnDemandWeatherReport(city,23m, DateTimeOffset.Now);
     }
 }
