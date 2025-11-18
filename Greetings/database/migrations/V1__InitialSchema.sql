@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[Greetings] (
-    [Id]          UNIQUEIDENTIFIER NOT NULL,
-    [Message]     NVARCHAR (MAX)   NOT NULL,
-    [RetrievedOn] DATETIME2 (7)    NOT NULL
+    [Id]           UNIQUEIDENTIFIER NOT NULL,
+    [Message]      NVARCHAR (MAX)   NOT NULL,
+    [GeneratedOn]  DATETIME2 (7)    NOT NULL
     );
 
 ALTER TABLE [dbo].[Greetings]
