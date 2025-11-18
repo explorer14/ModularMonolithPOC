@@ -9,7 +9,7 @@ public class SqlServerGreetingsRepository(GreetingsDbContext dbContext)  : IGree
         var newGreetings = new Greetings()
         {
             Id = Guid.NewGuid(),
-            City = greeting.Message,
+            Message = greeting.Message,
             GeneratedOn = DateTime.UtcNow
         };
         await dbContext.Greetings.AddAsync(newGreetings);
