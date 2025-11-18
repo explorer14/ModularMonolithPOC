@@ -1,12 +1,12 @@
 ﻿using Greetings.DomainModel.Ports;
 using Greetings.PublishedInterfaces;
 using Greetings.Storage.Adapter;
-using Greetings.WeatherReportingApi.Adapter;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using WeatherReporting.PublishedInterfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Greetings.Application;
 
@@ -25,10 +25,14 @@ public static class ServiceCollectionExtensions
 
     private static IServiceCollection AddServices(IServiceCollection services)
     {
+        services.AddDbContext<GreetingsDbContext>(options => 
+            options.UseSqlServer(
+                connectionString: "Server=greetings-module-db-server;Database=GreetingsDB;user=sa;Password=SuperPass123;MultipleActiveResultSets=true"));
         services.AddSingleton<IRetrieveGreetings, InmemoryGreetingsRetriever>();
         services.AddSingleton<IProvideGreetings>(serviceProvider =>
             new GreetingsProvider(greetingsRetriever: serviceProvider.GetService<IRetrieveGreetings>()!,
-                onDemandWeatherReportProvider: serviceProvider.GetService<IProvideOnDemandWeatherReport>()));
+                onDemandWeatherReportProvider: serviceProvider.GetService<IProvideOnDemandWeatherReport>()))
+            .AddSingleton<IGreetingsRepository, SqlServerGreetingsRepository>();
 
         return services;
     }
