@@ -25,6 +25,8 @@ internal class GreetingsProvider(
             DomainModel.Objects.TodaysGreeting.BasedOnCityTemperature(new CityTemperature(city,
                 weatherReport.TemperatureC));
         
+        greetingsRepository.AddGreeting(greetingsBasedOnCityTemp).GetAwaiter().GetResult();
+        
         return new TodaysWeatherBasedGreeting(city, greetingsBasedOnCityTemp.Message);
     }
 
