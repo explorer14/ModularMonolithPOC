@@ -159,6 +159,15 @@ Flyway is used to manage database schema migrations:
 - `weather-modeling-flyway-migrations` - Applies WeatherModeling DB migrations
 - `weather-reporting-flyway-migrations` - Applies WeatherReporting DB migrations
 
+NOTE: The `databases` folder in the repo root contains the database creation scripts 
+for WeatherReporting and WeatherModeling modules because these modules share the MySql database server
+but have their own MySql databases. 
+The databases are provisioned when the database container bootstraps.
+Since only one folder can be mounted to docker-initdb.d folder, both database creation scripts 
+have to be in one folder. Hence the `databases` folder in the root! 
+
+The migrations are located in the individual module folders as you'd expect!
+
 ### Key Configuration
 
 - **API Port:** 1983
