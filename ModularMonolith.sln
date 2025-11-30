@@ -54,10 +54,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{CCCBB02F-3
 		docs\arch-test-source-generator-spec.MD = docs\arch-test-source-generator-spec.MD
 		docs\module-dependency-rules.MD = docs\module-dependency-rules.MD
 		docs\solution-generator-spec.md = docs\solution-generator-spec.md
-		docs\Step 1 ModularMonolith.png = docs\Step 1 ModularMonolith.png
-		docs\Step 2 ModularMonolith_AsyncWeatherModeling_Module.png = docs\Step 2 ModularMonolith_AsyncWeatherModeling_Module.png
-		docs\Step 3 ModularMonolith_After_Splitting_WeatherAPI.png = docs\Step 3 ModularMonolith_After_Splitting_WeatherAPI.png
-		docs\WeatherReporting_TypeDeps.png = docs\WeatherReporting_TypeDeps.png
+		docs\ModularMonolith.png = docs\ModularMonolith.png
+		docs\ModularMonolith_After_Splitting_WeatherReporting.png = docs\ModularMonolith_After_Splitting_WeatherReporting.png
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{45907C60-2449-4D8D-9E47-97F99FA295DE}"
