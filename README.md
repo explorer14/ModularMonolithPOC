@@ -1,6 +1,9 @@
 # ModularMonolith
 
-A production-ready C# .NET 8 modular monolith architecture demonstrating best practices for organizing complex systems into independent, loosely-coupled modules while maintaining strong architectural boundaries.
+A proof-of-concept C# .NET 8 modular monolith architecture demonstrating ideas around 
+organizing 
+complex systems into independent, loosely-coupled modules while keeping distribution complexity 
+low and options open.
 
 ## Table of Contents
 
