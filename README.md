@@ -56,7 +56,8 @@ Manages weather report generation, publishing, and retrieval from external sourc
 ### 3. **WeatherModeling Module**
 **Location:** [`WeatherModeling/`](./WeatherModeling/)
 
-Models and processes weather data through asynchronous messaging.
+Models and processes weather data through asynchronous messaging. _Not really though! Its just a 
+demo!_
 
 **Projects:**
 - [`WeatherModeling.DomainModel`](./WeatherModeling/WeatherModeling.DomainModel/) - Weather data models and transformations
@@ -159,14 +160,16 @@ Flyway is used to manage database schema migrations:
 - `weather-modeling-flyway-migrations` - Applies WeatherModeling DB migrations
 - `weather-reporting-flyway-migrations` - Applies WeatherReporting DB migrations
 
-NOTE: The `databases` folder in the repo root contains the database creation scripts 
-for WeatherReporting and WeatherModeling modules because these modules share the MySql database server
-but have their own MySql databases. 
-The databases are provisioned when the database container bootstraps.
-Since only one folder can be mounted to docker-initdb.d folder, both database creation scripts 
-have to be in one folder. Hence the `databases` folder in the root! 
-
-The migrations are located in the individual module folders as you'd expect!
+>[!IMPORTANT]
+>The `databases` folder in the repo root contains the database creation scripts
+>for WeatherReporting and WeatherModeling modules because these modules share the MySql database 
+>server but have their own MySql databases.
+>
+>The databases are provisioned when the database container bootstraps.
+>Since only one folder can be mounted to docker-initdb.d folder, both database creation scripts
+>have to be in one folder. Hence the `databases` folder in the root!
+>
+>The migrations are located in the individual module folders as you'd expect!
 
 ### Key Configuration
 
@@ -183,13 +186,13 @@ The migrations are located in the individual module folders as you'd expect!
 
 - .NET 8 SDK
 - Docker and Docker Compose
-- PowerShell (for scripts)
+- Powershell Core (for scripts)
 
 ### Quick Start with Docker Compose
 
 ```bash
 # Build and run all services
-docker-compose up -d
+docker-compose up --build
 
 # Check service health
 docker-compose ps
@@ -198,7 +201,7 @@ docker-compose ps
 docker-compose logs -f modular-monolith-api
 
 # Stop services
-docker-compose down
+docker-compose down -v
 ```
 
 ### Local Development (Without Docker)
@@ -271,7 +274,7 @@ dotnet test --filter "WhenValidatingModuleBoundaries"
 
 **Location:** [`ArchTestSourceGenerator/`](./ArchTestSourceGenerator/)
 
-Planned incremental source generator to auto-generate architecture tests. Currently in Phase 1 (module discovery).
+An incremental source generator to auto-generate architecture tests. 
 
 **Documentation:** [`docs/arch-test-source-generator-spec.MD`](./docs/arch-test-source-generator-spec.MD)
 
@@ -339,7 +342,7 @@ Reference architecture diagrams are available in the [`docs/`](./docs/) folder:
 
 ## Development Workflow
 
-### Adding a New Feature
+### Adding a New Feature to an Existing Module
 
 1. **Identify the module** where the feature belongs
 2. **Add domain logic** to `[Module].DomainModel`
@@ -348,6 +351,12 @@ Reference architecture diagrams are available in the [`docs/`](./docs/) folder:
 5. **Add adapters** for external integrations (Storage, Messaging, etc.)
 6. **Update module registration** in `ModularMonolith.Api/Program.cs` if it's a new module
 7. **Run architecture tests** to validate boundaries: `dotnet test`
+
+### Adding a New Module
+1. Run the [`create-new-module.ps1`](./scripts/create-new-module.ps1) script.
+2. Ensure `DoNotDelete.cs` file exists in the root of the module i.e. in the top level folder
+3. Run all the tests. If architecture tests fail at first, clean and rebuild the solution and 
+   try again. Sometimes source generators can lag behind a bit.
 
 ### Inter-Module Communication
 
@@ -373,7 +382,7 @@ Reference architecture diagrams are available in the [`docs/`](./docs/) folder:
 - **.NET:** 8.0
 - **Web Framework:** ASP.NET Core with Swagger/OpenAPI
 - **Databases:** SQL Server (Greetings), MySQL (Weather)
-- **Messaging:** In-memory queue with Zookeeper coordination
+- **Messaging:** In-memory queue (Kafka later)
 - **Migrations:** Flyway
 - **Testing:** xUnit, Moq, ArchUnitNET
 - **Architecture:** Hexagonal (Ports & Adapters)
